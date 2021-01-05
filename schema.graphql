@@ -1,6 +1,25 @@
-type ExampleEntity @entity {
+type Store @entity {
   id: ID!
-  count: BigInt!
-  _owner: Bytes! # address
-  _spender: Bytes! # address
+  owner: Bytes
+  ensName: String
+  availableETH: BigInt
+  availableUSDC: BigInt
+  availableMUS: BigInt
+  stake: BigInt
+  collateral: BigInt
+  collateralRelief: BigInt
+  rate: Int
+  extension: Bytes
+  country: String
+  city: String
+  street: String
+  website: String
+  type: String
+  zipcode: BigInt
+}
+
+type User @entity {
+  id: ID!
+  availableFruit: BigInt
+  approvedFruit: BigInt
 }
