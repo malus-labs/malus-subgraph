@@ -1,0 +1,53 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: FruitToken
+    network: ropsten
+    source:
+      address: "0x5cB4Fb03947c78c162D67cF89B87DB6bfD1300aF"
+      abi: FruitToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - BalanceUpdated
+        - CollateralGenerated
+        - CollateralReleased
+        - CollateralReliefUpdated
+        - ExtensionUpdated
+        - MetaDataUpdated
+        - OwnerUpdated
+        - StakeUpdated
+        - StoreCreated
+        - Transfer
+      abis:
+        - name: FruitToken
+          file: ./abis/FruitToken.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: BalanceUpdated(indexed address,uint256)
+          handler: handleBalanceUpdated
+        - event: CollateralGenerated(indexed address,uint256,uint256,uint256)
+          handler: handleCollateralGenerated
+        - event: CollateralReleased(indexed address,uint256,uint256)
+          handler: handleCollateralReleased
+        - event: CollateralReliefUpdated(indexed address,uint256,uint256,uint256)
+          handler: handleCollateralReliefUpdated
+        - event: ExtensionUpdated(indexed address,address)
+          handler: handleExtensionUpdated
+        - event: MetaDataUpdated(indexed address,string[6])
+          handler: handleMetaDataUpdated
+        - event: OwnerUpdated(indexed address,address)
+          handler: handleOwnerUpdated
+        - event: StakeUpdated(indexed address,uint256,uint256)
+          handler: handleStakeUpdated
+        - event: StoreCreated(indexed address,address,uint256)
+          handler: handleStoreCreated
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
