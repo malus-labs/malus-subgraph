@@ -4,11 +4,11 @@ type Store @entity {
   ensName: String
   availableETH: BigInt
   availableUSDC: BigInt
+  availableDAI: BigInt
   availableMUS: BigInt
   stake: BigInt
   collateral: BigInt
   collateralRelief: BigInt
-  rate: Int
   extension: Bytes
   country: String
   city: String
@@ -20,6 +20,6 @@ type Store @entity {
 
 type User @entity {
   id: ID!
-  availableFruit: BigInt
-  approvedFruit: BigInt
+  availableFRUT: BigInt
+  approvedFRUT: BigInt
 }
