@@ -13,8 +13,13 @@ import {
   StoreCreated,
   Transfer
 } from "../generated/FruitToken/FruitToken"
-import { ExampleEntity } from "../generated/schema"
+import { Store, User } from "../generated/schema"
 
+export function handleStoreCreated(event: StoreCreated): void {
+
+}
+
+/*
 export function handleApproval(event: Approval): void {
   // Entities can be loaded from the store using a string ID; this ID
   // needs to be unique across all entities of the same type
@@ -92,6 +97,5 @@ export function handleOwnerUpdated(event: OwnerUpdated): void {}
 
 export function handleStakeUpdated(event: StakeUpdated): void {}
 
-export function handleStoreCreated(event: StoreCreated): void {}
-
 export function handleTransfer(event: Transfer): void {}
+*/
