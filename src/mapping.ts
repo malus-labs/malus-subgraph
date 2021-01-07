@@ -29,6 +29,18 @@ export function handleStoreCreated(event: StoreCreated): void {
   store.save();
 }
 
+export function handleOwnerUpdated(event: OwnerUpdated): void {
+  let user = User.load(event.params.newOwner.toHexString());
+
+  if(user == null) {
+    user = new User(event.params.newOwner.toHexString());
+    user.save();
+  }
+
+  let store = Store.load(event.params.store.toHexString());
+  store.owner = user.id;
+  store.save();
+}
 /*
 export function handleApproval(event: Approval): void {
   // Entities can be loaded from the store using a string ID; this ID
