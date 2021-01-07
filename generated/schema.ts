@@ -12,7 +12,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class unfilledCollateralReliefs extends Entity {
+export class User extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,23 +20,48 @@ export class unfilledCollateralReliefs extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(
-      id !== null,
-      "Cannot save unfilledCollateralReliefs entity without an ID"
-    );
+    assert(id !== null, "Cannot save User entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save unfilledCollateralReliefs entity with non-string ID. " +
+      "Cannot save User entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("unfilledCollateralReliefs", id.toString(), this);
+    store.set("User", id.toString(), this);
   }
 
-  static load(id: string): unfilledCollateralReliefs | null {
-    return store.get(
-      "unfilledCollateralReliefs",
-      id
-    ) as unfilledCollateralReliefs | null;
+  static load(id: string): User | null {
+    return store.get("User", id) as User | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+}
+
+export class Ens extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Ens entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Ens entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Ens", id.toString(), this);
+  }
+
+  static load(id: string): Ens | null {
+    return store.get("Ens", id) as Ens | null;
   }
 
   get id(): string {
@@ -48,22 +73,13 @@ export class unfilledCollateralReliefs extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get rate(): i32 {
-    let value = this.get("rate");
-    return value.toI32();
+  get store(): string {
+    let value = this.get("store");
+    return value.toString();
   }
 
-  set rate(value: i32) {
-    this.set("rate", Value.fromI32(value));
-  }
-
-  get amount(): BigInt {
-    let value = this.get("amount");
-    return value.toBigInt();
-  }
-
-  set amount(value: BigInt) {
-    this.set("amount", Value.fromBigInt(value));
+  set store(value: string) {
+    this.set("store", Value.fromString(value));
   }
 }
 
@@ -97,13 +113,13 @@ export class Store extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get owner(): Bytes {
+  get owner(): string {
     let value = this.get("owner");
-    return value.toBytes();
+    return value.toString();
   }
 
-  set owner(value: Bytes) {
-    this.set("owner", Value.fromBytes(value));
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
   }
 
   get creationDate(): BigInt {
@@ -371,7 +387,7 @@ export class Store extends Entity {
   }
 }
 
-export class Ens extends Entity {
+export class unfilledCollateralReliefs extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -379,17 +395,23 @@ export class Ens extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Ens entity without an ID");
+    assert(
+      id !== null,
+      "Cannot save unfilledCollateralReliefs entity without an ID"
+    );
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save Ens entity with non-string ID. " +
+      "Cannot save unfilledCollateralReliefs entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("Ens", id.toString(), this);
+    store.set("unfilledCollateralReliefs", id.toString(), this);
   }
 
-  static load(id: string): Ens | null {
-    return store.get("Ens", id) as Ens | null;
+  static load(id: string): unfilledCollateralReliefs | null {
+    return store.get(
+      "unfilledCollateralReliefs",
+      id
+    ) as unfilledCollateralReliefs | null;
   }
 
   get id(): string {
@@ -401,44 +423,22 @@ export class Ens extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get store(): string {
-    let value = this.get("store");
-    return value.toString();
+  get rate(): i32 {
+    let value = this.get("rate");
+    return value.toI32();
   }
 
-  set store(value: string) {
-    this.set("store", Value.fromString(value));
-  }
-}
-
-export class User extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
+  set rate(value: i32) {
+    this.set("rate", Value.fromI32(value));
   }
 
-  save(): void {
-    let id = this.get("id");
-    assert(id !== null, "Cannot save User entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save User entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("User", id.toString(), this);
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value.toBigInt();
   }
 
-  static load(id: string): User | null {
-    return store.get("User", id) as User | null;
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
   }
 
   get store(): string {

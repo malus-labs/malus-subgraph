@@ -1,14 +1,17 @@
-type unfilledCollateralReliefs @entity {
+type User @entity {
   id: ID!
-  rate: Int!
-  amount: BigInt!
+}
+
+type Ens @entity {
+  id: ID!
+  store: Store!
 }
 
 type Store @entity {
   id: ID!
-  owner: Bytes!
+  owner: User!
   creationDate: BigInt!
-  ensName: String
+  ensName: Ens
   availableETH: BigInt
   availableUSDC: BigInt
   availableDAI: BigInt
@@ -25,12 +28,9 @@ type Store @entity {
   zipcode: String
 }
 
-type Ens @entity {
-  id: ID!
-  store: Store!
-}
-
-type User @entity {
-  id: ID!
+type unfilledCollateralReliefs @entity {
+  id: ID! 
+  rate: Int!
+  amount: BigInt!
   store: Store!
 }
