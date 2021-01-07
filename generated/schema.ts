@@ -106,6 +106,15 @@ export class Store extends Entity {
     this.set("owner", Value.fromBytes(value));
   }
 
+  get creationDate(): BigInt {
+    let value = this.get("creationDate");
+    return value.toBigInt();
+  }
+
+  set creationDate(value: BigInt) {
+    this.set("creationDate", Value.fromBigInt(value));
+  }
+
   get ensName(): string | null {
     let value = this.get("ensName");
     if (value === null || value.kind == ValueKind.NULL) {

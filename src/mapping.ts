@@ -16,7 +16,11 @@ import {
 import { Store, User } from "../generated/schema"
 
 export function handleStoreCreated(event: StoreCreated): void {
-
+  let store = new Store(event.params.store.toHex());
+  let user = new User(event.params.owner.toHex());
+  user.store = store;
+  store.save();
+  user.save();
 }
 
 /*
