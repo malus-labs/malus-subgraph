@@ -12,6 +12,61 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class unfilledCollateralReliefs extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id !== null,
+      "Cannot save unfilledCollateralReliefs entity without an ID"
+    );
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save unfilledCollateralReliefs entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("unfilledCollateralReliefs", id.toString(), this);
+  }
+
+  static load(id: string): unfilledCollateralReliefs | null {
+    return store.get(
+      "unfilledCollateralReliefs",
+      id
+    ) as unfilledCollateralReliefs | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get rate(): i32 {
+    let value = this.get("rate");
+    return value.toI32();
+  }
+
+  set rate(value: i32) {
+    this.set("rate", Value.fromI32(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+}
+
 export class Store extends Entity {
   constructor(id: string) {
     super();
@@ -42,21 +97,22 @@ export class Store extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get owner(): Bytes | null {
+  get owner(): Bytes {
     let value = this.get("owner");
-    if (value === null || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value.toBytes();
   }
 
-  set owner(value: Bytes | null) {
-    if (value === null) {
-      this.unset("owner");
-    } else {
-      this.set("owner", Value.fromBytes(value as Bytes));
-    }
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
+  }
+
+  get creationDate(): BigInt {
+    let value = this.get("creationDate");
+    return value.toBigInt();
+  }
+
+  set creationDate(value: BigInt) {
+    this.set("creationDate", Value.fromBigInt(value));
   }
 
   get ensName(): string | null {
@@ -107,6 +163,23 @@ export class Store extends Entity {
       this.unset("availableUSDC");
     } else {
       this.set("availableUSDC", Value.fromBigInt(value as BigInt));
+    }
+  }
+
+  get availableDAI(): BigInt | null {
+    let value = this.get("availableDAI");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set availableDAI(value: BigInt | null) {
+    if (value === null) {
+      this.unset("availableDAI");
+    } else {
+      this.set("availableDAI", Value.fromBigInt(value as BigInt));
     }
   }
 
@@ -176,15 +249,6 @@ export class Store extends Entity {
     } else {
       this.set("collateralRelief", Value.fromBigInt(value as BigInt));
     }
-  }
-
-  get rate(): i32 {
-    let value = this.get("rate");
-    return value.toI32();
-  }
-
-  set rate(value: i32) {
-    this.set("rate", Value.fromI32(value));
   }
 
   get extension(): Bytes | null {
@@ -289,21 +353,61 @@ export class Store extends Entity {
     }
   }
 
-  get zipcode(): BigInt | null {
+  get zipcode(): string | null {
     let value = this.get("zipcode");
     if (value === null || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toBigInt();
+      return value.toString();
     }
   }
 
-  set zipcode(value: BigInt | null) {
+  set zipcode(value: string | null) {
     if (value === null) {
       this.unset("zipcode");
     } else {
-      this.set("zipcode", Value.fromBigInt(value as BigInt));
+      this.set("zipcode", Value.fromString(value as string));
     }
+  }
+}
+
+export class Ens extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Ens entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Ens entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Ens", id.toString(), this);
+  }
+
+  static load(id: string): Ens | null {
+    return store.get("Ens", id) as Ens | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get store(): string {
+    let value = this.get("store");
+    return value.toString();
+  }
+
+  set store(value: string) {
+    this.set("store", Value.fromString(value));
   }
 }
 
@@ -337,37 +441,12 @@ export class User extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get availableFruit(): BigInt | null {
-    let value = this.get("availableFruit");
-    if (value === null || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
+  get store(): string {
+    let value = this.get("store");
+    return value.toString();
   }
 
-  set availableFruit(value: BigInt | null) {
-    if (value === null) {
-      this.unset("availableFruit");
-    } else {
-      this.set("availableFruit", Value.fromBigInt(value as BigInt));
-    }
-  }
-
-  get approvedFruit(): BigInt | null {
-    let value = this.get("approvedFruit");
-    if (value === null || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set approvedFruit(value: BigInt | null) {
-    if (value === null) {
-      this.unset("approvedFruit");
-    } else {
-      this.set("approvedFruit", Value.fromBigInt(value as BigInt));
-    }
+  set store(value: string) {
+    this.set("store", Value.fromString(value));
   }
 }
