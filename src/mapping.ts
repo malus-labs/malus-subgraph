@@ -1,7 +1,5 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+//import { BigInt } from "@graphprotocol/graph-ts"
 import {
-  FruitToken,
-  Approval,
   BalanceUpdated,
   CollateralGenerated,
   CollateralReleased,
@@ -11,7 +9,6 @@ import {
   OwnerUpdated,
   StakeUpdated,
   StoreCreated,
-  Transfer
 } from "../generated/FruitToken/FruitToken"
 import { Store, User } from "../generated/schema"
 
@@ -48,6 +45,39 @@ export function handleStakeUpdated(event: StakeUpdated): void {
   store.stake = event.params.stake;
   store.save();
 }
+/*
+export function handleBalanceUpdated(event: BalanceUpdated): void {
+  let store = Store.load(event.params.store.toHexString());
+  store.availableETH = event.params.amount;
+  store.save();
+}
+*/
+/*
+export function handleCollateralGenerated(event: CollateralGenerated): void {
+  let store = Store.load(event.params.store.toHexString());
+  store.availableETH = event.params.availableFunds;
+  store.stake = event.params.stake;
+  store.save();
+}
+*/
+
+export function handleExtensionUpdated(event: ExtensionUpdated): void {
+  let store = Store.load(event.params.store.toHexString());
+  store.extension = event.params.extension;
+  store.save();
+}
+
+export function handleMetaDataUpdated(event: MetaDataUpdated): void {
+  let store = Store.load(event.params.store.toHexString());
+  store.country = event.params.metaData[0];
+  store.city = event.params.metaData[1];
+  store.street = event.params.metaData[2];
+  store.website = event.params.metaData[3];
+  store.type = event.params.metaData[4];
+  store.zipcode = event.params.metaData[5];
+  store.save();
+}
+
 /*
 export function handleApproval(event: Approval): void {
   // Entities can be loaded from the store using a string ID; this ID
