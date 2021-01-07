@@ -41,6 +41,13 @@ export function handleOwnerUpdated(event: OwnerUpdated): void {
   store.owner = user.id;
   store.save();
 }
+
+export function handleStakeUpdated(event: StakeUpdated): void {
+  let store = Store.load(event.params.store.toHexString());
+  store.availableETH = event.params.availableFunds;
+  store.stake = event.params.stake;
+  store.save();
+}
 /*
 export function handleApproval(event: Approval): void {
   // Entities can be loaded from the store using a string ID; this ID
