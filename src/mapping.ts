@@ -34,28 +34,14 @@ export function handleOwnerUpdated(event: OwnerUpdated): void {
   store.owner = user.id;
   store.save();
 }
-/*
-export function handleStakeUpdated(event: StakeUpdated): void {
-  let store = Store.load(event.params.store.toHexString());
-  store.availableETH = event.params.availableFunds;
-  store.stake = event.params.stake;
-  store.save();
-}
 
-export function handleBalanceUpdated(event: BalanceUpdated): void {
-  let store = Store.load(event.params.store.toHexString());
-  store.availableETH = event.params.amount;
-  store.save();
-}
-*/
-/*
-export function handleCollateralGenerated(event: CollateralGenerated): void {
+export function handleStoreBalancesUpdated(event: StoreBalancesUpdated): void {
   let store = Store.load(event.params.store.toHexString());
   store.availableETH = event.params.availableFunds;
   store.stake = event.params.stake;
+  store.collateral = event.params.collateral;
   store.save();
 }
-*/
 
 export function handleExtensionUpdated(event: ExtensionUpdated): void {
   let store = Store.load(event.params.store.toHexString());
