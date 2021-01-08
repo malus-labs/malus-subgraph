@@ -14,14 +14,11 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Approval
-        - BalanceUpdated
-        - CollateralGenerated
-        - CollateralReleased
         - CollateralReliefUpdated
         - ExtensionUpdated
         - MetaDataUpdated
         - OwnerUpdated
-        - StakeUpdated
+        - StoreBalancesUpdated
         - StoreCreated
         - Transfer
       abis:
@@ -30,13 +27,7 @@ dataSources:
       eventHandlers:
         - event: Approval(indexed address,indexed address,uint256)
           handler: handleApproval
-        - event: BalanceUpdated(indexed address,uint256)
-          handler: handleBalanceUpdated
-        - event: CollateralGenerated(indexed address,uint256,uint256,uint256)
-          handler: handleCollateralGenerated
-        - event: CollateralReleased(indexed address,uint256,uint256)
-          handler: handleCollateralReleased
-        - event: CollateralReliefUpdated(indexed address,uint256,uint256,uint256)
+        - event: CollateralReliefUpdated(indexed address,uint256,uint256,uint256,bool)
           handler: handleCollateralReliefUpdated
         - event: ExtensionUpdated(indexed address,address)
           handler: handleExtensionUpdated
@@ -44,8 +35,8 @@ dataSources:
           handler: handleMetaDataUpdated
         - event: OwnerUpdated(indexed address,address)
           handler: handleOwnerUpdated
-        - event: StakeUpdated(indexed address,uint256,uint256)
-          handler: handleStakeUpdated
+        - event: StoreBalancesUpdated(indexed address,uint256,uint256,uint256)
+          handler: handleStoreBalancesUpdated
         - event: StoreCreated(indexed address,address,uint256)
           handler: handleStoreCreated
         - event: Transfer(indexed address,indexed address,uint256)

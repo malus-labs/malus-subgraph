@@ -1,13 +1,9 @@
-//import { BigInt } from "@graphprotocol/graph-ts"
 import {
-  BalanceUpdated,
-  CollateralGenerated,
-  CollateralReleased,
   CollateralReliefUpdated,
   ExtensionUpdated,
   MetaDataUpdated,
   OwnerUpdated,
-  StakeUpdated,
+  StoreBalancesUpdated,
   StoreCreated,
 } from "../generated/FruitToken/FruitToken"
 import { Store, User } from "../generated/schema"
@@ -38,14 +34,14 @@ export function handleOwnerUpdated(event: OwnerUpdated): void {
   store.owner = user.id;
   store.save();
 }
-
+/*
 export function handleStakeUpdated(event: StakeUpdated): void {
   let store = Store.load(event.params.store.toHexString());
   store.availableETH = event.params.availableFunds;
   store.stake = event.params.stake;
   store.save();
 }
-/*
+
 export function handleBalanceUpdated(event: BalanceUpdated): void {
   let store = Store.load(event.params.store.toHexString());
   store.availableETH = event.params.amount;

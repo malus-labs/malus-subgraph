@@ -36,84 +36,6 @@ export class Approval__Params {
   }
 }
 
-export class BalanceUpdated extends ethereum.Event {
-  get params(): BalanceUpdated__Params {
-    return new BalanceUpdated__Params(this);
-  }
-}
-
-export class BalanceUpdated__Params {
-  _event: BalanceUpdated;
-
-  constructor(event: BalanceUpdated) {
-    this._event = event;
-  }
-
-  get store(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get amount(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-}
-
-export class CollateralGenerated extends ethereum.Event {
-  get params(): CollateralGenerated__Params {
-    return new CollateralGenerated__Params(this);
-  }
-}
-
-export class CollateralGenerated__Params {
-  _event: CollateralGenerated;
-
-  constructor(event: CollateralGenerated) {
-    this._event = event;
-  }
-
-  get store(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get collateral(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get stake(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-
-  get availableFunds(): BigInt {
-    return this._event.parameters[3].value.toBigInt();
-  }
-}
-
-export class CollateralReleased extends ethereum.Event {
-  get params(): CollateralReleased__Params {
-    return new CollateralReleased__Params(this);
-  }
-}
-
-export class CollateralReleased__Params {
-  _event: CollateralReleased;
-
-  constructor(event: CollateralReleased) {
-    this._event = event;
-  }
-
-  get store(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get collateral(): BigInt {
-    return this._event.parameters[1].value.toBigInt();
-  }
-
-  get availableFunds(): BigInt {
-    return this._event.parameters[2].value.toBigInt();
-  }
-}
-
 export class CollateralReliefUpdated extends ethereum.Event {
   get params(): CollateralReliefUpdated__Params {
     return new CollateralReliefUpdated__Params(this);
@@ -141,6 +63,10 @@ export class CollateralReliefUpdated__Params {
 
   get rate(): BigInt {
     return this._event.parameters[3].value.toBigInt();
+  }
+
+  get didAdd(): boolean {
+    return this._event.parameters[4].value.toBoolean();
   }
 }
 
@@ -210,16 +136,16 @@ export class OwnerUpdated__Params {
   }
 }
 
-export class StakeUpdated extends ethereum.Event {
-  get params(): StakeUpdated__Params {
-    return new StakeUpdated__Params(this);
+export class StoreBalancesUpdated extends ethereum.Event {
+  get params(): StoreBalancesUpdated__Params {
+    return new StoreBalancesUpdated__Params(this);
   }
 }
 
-export class StakeUpdated__Params {
-  _event: StakeUpdated;
+export class StoreBalancesUpdated__Params {
+  _event: StoreBalancesUpdated;
 
-  constructor(event: StakeUpdated) {
+  constructor(event: StoreBalancesUpdated) {
     this._event = event;
   }
 
@@ -227,12 +153,16 @@ export class StakeUpdated__Params {
     return this._event.parameters[0].value.toAddress();
   }
 
-  get stake(): BigInt {
+  get collateral(): BigInt {
     return this._event.parameters[1].value.toBigInt();
   }
 
-  get availableFunds(): BigInt {
+  get stake(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+
+  get availableFunds(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
   }
 }
 
@@ -310,134 +240,6 @@ export class FruitToken extends ethereum.SmartContract {
     return new FruitToken("FruitToken", address);
   }
 
-  approve(_spender: Address, _amount: BigInt): boolean {
-    let result = super.call("approve", "approve(address,uint256):(bool)", [
-      ethereum.Value.fromAddress(_spender),
-      ethereum.Value.fromUnsignedBigInt(_amount)
-    ]);
-
-    return result[0].toBoolean();
-  }
-
-  try_approve(
-    _spender: Address,
-    _amount: BigInt
-  ): ethereum.CallResult<boolean> {
-    let result = super.tryCall("approve", "approve(address,uint256):(bool)", [
-      ethereum.Value.fromAddress(_spender),
-      ethereum.Value.fromUnsignedBigInt(_amount)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  mint(_customer: Address, _paymentReceived: BigInt): FruitToken__mintResult {
-    let result = super.call("mint", "mint(address,uint256):(bool,uint256)", [
-      ethereum.Value.fromAddress(_customer),
-      ethereum.Value.fromUnsignedBigInt(_paymentReceived)
-    ]);
-
-    return new FruitToken__mintResult(
-      result[0].toBoolean(),
-      result[1].toBigInt()
-    );
-  }
-
-  try_mint(
-    _customer: Address,
-    _paymentReceived: BigInt
-  ): ethereum.CallResult<FruitToken__mintResult> {
-    let result = super.tryCall("mint", "mint(address,uint256):(bool,uint256)", [
-      ethereum.Value.fromAddress(_customer),
-      ethereum.Value.fromUnsignedBigInt(_paymentReceived)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(
-      new FruitToken__mintResult(value[0].toBoolean(), value[1].toBigInt())
-    );
-  }
-
-  transfer(_to: Address, _amount: BigInt): boolean {
-    let result = super.call("transfer", "transfer(address,uint256):(bool)", [
-      ethereum.Value.fromAddress(_to),
-      ethereum.Value.fromUnsignedBigInt(_amount)
-    ]);
-
-    return result[0].toBoolean();
-  }
-
-  try_transfer(_to: Address, _amount: BigInt): ethereum.CallResult<boolean> {
-    let result = super.tryCall("transfer", "transfer(address,uint256):(bool)", [
-      ethereum.Value.fromAddress(_to),
-      ethereum.Value.fromUnsignedBigInt(_amount)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  transferFrom(_from: Address, _to: Address, _amount: BigInt): boolean {
-    let result = super.call(
-      "transferFrom",
-      "transferFrom(address,address,uint256):(bool)",
-      [
-        ethereum.Value.fromAddress(_from),
-        ethereum.Value.fromAddress(_to),
-        ethereum.Value.fromUnsignedBigInt(_amount)
-      ]
-    );
-
-    return result[0].toBoolean();
-  }
-
-  try_transferFrom(
-    _from: Address,
-    _to: Address,
-    _amount: BigInt
-  ): ethereum.CallResult<boolean> {
-    let result = super.tryCall(
-      "transferFrom",
-      "transferFrom(address,address,uint256):(bool)",
-      [
-        ethereum.Value.fromAddress(_from),
-        ethereum.Value.fromAddress(_to),
-        ethereum.Value.fromUnsignedBigInt(_amount)
-      ]
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
-  withdraw(_amount: BigInt): boolean {
-    let result = super.call("withdraw", "withdraw(uint256):(bool)", [
-      ethereum.Value.fromUnsignedBigInt(_amount)
-    ]);
-
-    return result[0].toBoolean();
-  }
-
-  try_withdraw(_amount: BigInt): ethereum.CallResult<boolean> {
-    let result = super.tryCall("withdraw", "withdraw(uint256):(bool)", [
-      ethereum.Value.fromUnsignedBigInt(_amount)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
-  }
-
   allowance(_owner: Address, _spender: Address): BigInt {
     let result = super.call(
       "allowance",
@@ -462,6 +264,30 @@ export class FruitToken extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  approve(_spender: Address, _amount: BigInt): boolean {
+    let result = super.call("approve", "approve(address,uint256):(bool)", [
+      ethereum.Value.fromAddress(_spender),
+      ethereum.Value.fromUnsignedBigInt(_amount)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_approve(
+    _spender: Address,
+    _amount: BigInt
+  ): ethereum.CallResult<boolean> {
+    let result = super.tryCall("approve", "approve(address,uint256):(bool)", [
+      ethereum.Value.fromAddress(_spender),
+      ethereum.Value.fromUnsignedBigInt(_amount)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   balanceOf(_owner: Address): BigInt {
@@ -559,6 +385,25 @@ export class FruitToken extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  getStake(_store: Address): BigInt {
+    let result = super.call("getStake", "getStake(address):(uint256)", [
+      ethereum.Value.fromAddress(_store)
+    ]);
+
+    return result[0].toBigInt();
+  }
+
+  try_getStake(_store: Address): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("getStake", "getStake(address):(uint256)", [
+      ethereum.Value.fromAddress(_store)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   getcollateralRelief(_store: Address, _rate: BigInt): BigInt {
     let result = super.call(
       "getcollateralRelief",
@@ -584,25 +429,6 @@ export class FruitToken extends ethereum.SmartContract {
         ethereum.Value.fromUnsignedBigInt(_rate)
       ]
     );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  getStake(_store: Address): BigInt {
-    let result = super.call("getStake", "getStake(address):(uint256)", [
-      ethereum.Value.fromAddress(_store)
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_getStake(_store: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("getStake", "getStake(address):(uint256)", [
-      ethereum.Value.fromAddress(_store)
-    ]);
     if (result.reverted) {
       return new ethereum.CallResult();
     }
@@ -642,6 +468,35 @@ export class FruitToken extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  mint(_customer: Address, _paymentReceived: BigInt): FruitToken__mintResult {
+    let result = super.call("mint", "mint(address,uint256):(bool,uint256)", [
+      ethereum.Value.fromAddress(_customer),
+      ethereum.Value.fromUnsignedBigInt(_paymentReceived)
+    ]);
+
+    return new FruitToken__mintResult(
+      result[0].toBoolean(),
+      result[1].toBigInt()
+    );
+  }
+
+  try_mint(
+    _customer: Address,
+    _paymentReceived: BigInt
+  ): ethereum.CallResult<FruitToken__mintResult> {
+    let result = super.tryCall("mint", "mint(address,uint256):(bool,uint256)", [
+      ethereum.Value.fromAddress(_customer),
+      ethereum.Value.fromUnsignedBigInt(_paymentReceived)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new FruitToken__mintResult(value[0].toBoolean(), value[1].toBigInt())
+    );
   }
 
   name(): string {
@@ -687,6 +542,115 @@ export class FruitToken extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  transfer(_to: Address, _amount: BigInt): boolean {
+    let result = super.call("transfer", "transfer(address,uint256):(bool)", [
+      ethereum.Value.fromAddress(_to),
+      ethereum.Value.fromUnsignedBigInt(_amount)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_transfer(_to: Address, _amount: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall("transfer", "transfer(address,uint256):(bool)", [
+      ethereum.Value.fromAddress(_to),
+      ethereum.Value.fromUnsignedBigInt(_amount)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  transferFrom(_from: Address, _to: Address, _amount: BigInt): boolean {
+    let result = super.call(
+      "transferFrom",
+      "transferFrom(address,address,uint256):(bool)",
+      [
+        ethereum.Value.fromAddress(_from),
+        ethereum.Value.fromAddress(_to),
+        ethereum.Value.fromUnsignedBigInt(_amount)
+      ]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_transferFrom(
+    _from: Address,
+    _to: Address,
+    _amount: BigInt
+  ): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "transferFrom",
+      "transferFrom(address,address,uint256):(bool)",
+      [
+        ethereum.Value.fromAddress(_from),
+        ethereum.Value.fromAddress(_to),
+        ethereum.Value.fromUnsignedBigInt(_amount)
+      ]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  withdraw(_amount: BigInt): boolean {
+    let result = super.call("withdraw", "withdraw(uint256):(bool)", [
+      ethereum.Value.fromUnsignedBigInt(_amount)
+    ]);
+
+    return result[0].toBoolean();
+  }
+
+  try_withdraw(_amount: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall("withdraw", "withdraw(uint256):(bool)", [
+      ethereum.Value.fromUnsignedBigInt(_amount)
+    ]);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+}
+
+export class ConstructorCall extends ethereum.Call {
+  get inputs(): ConstructorCall__Inputs {
+    return new ConstructorCall__Inputs(this);
+  }
+
+  get outputs(): ConstructorCall__Outputs {
+    return new ConstructorCall__Outputs(this);
+  }
+}
+
+export class ConstructorCall__Inputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
+  }
+
+  get malusTokenAddress(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _sender(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class ConstructorCall__Outputs {
+  _call: ConstructorCall;
+
+  constructor(call: ConstructorCall) {
+    this._call = call;
   }
 }
 
@@ -759,40 +723,6 @@ export class ApproveCall__Outputs {
 
   get success(): boolean {
     return this._call.outputValues[0].value.toBoolean();
-  }
-}
-
-export class ConstructorCall extends ethereum.Call {
-  get inputs(): ConstructorCall__Inputs {
-    return new ConstructorCall__Inputs(this);
-  }
-
-  get outputs(): ConstructorCall__Outputs {
-    return new ConstructorCall__Outputs(this);
-  }
-}
-
-export class ConstructorCall__Inputs {
-  _call: ConstructorCall;
-
-  constructor(call: ConstructorCall) {
-    this._call = call;
-  }
-
-  get malusTokenAddress(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _sender(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-}
-
-export class ConstructorCall__Outputs {
-  _call: ConstructorCall;
-
-  constructor(call: ConstructorCall) {
-    this._call = call;
   }
 }
 
