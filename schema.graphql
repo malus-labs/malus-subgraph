@@ -14,7 +14,6 @@ type Store @entity {
   ensName: Ens
   availableETH: BigInt
   availableUSDC: BigInt
-  availableDAI: BigInt
   availableMUS: BigInt
   stake: BigInt
   collateral: BigInt

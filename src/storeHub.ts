@@ -22,7 +22,6 @@ export function handleStoreCreated(event: StoreCreated): void {
   store.owner = user.id;
   store.availableETH = zeroValue;
   store.availableUSDC = zeroValue;
-  store.availableDAI = zeroValue;
   store.availableMUS = zeroValue;
   store.stake = zeroValue;
   store.collateral = zeroValue;
