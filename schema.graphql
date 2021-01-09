@@ -28,7 +28,7 @@ type Store @entity {
   zipcode: String
 }
 
-type unfilledCollateralReliefs @entity {
+type CollateralRelief @entity {
   id: ID! 
   rate: Int!
   amount: BigInt!
