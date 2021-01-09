@@ -387,7 +387,7 @@ export class Store extends Entity {
   }
 }
 
-export class unfilledCollateralReliefs extends Entity {
+export class CollateralRelief extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -395,23 +395,17 @@ export class unfilledCollateralReliefs extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(
-      id !== null,
-      "Cannot save unfilledCollateralReliefs entity without an ID"
-    );
+    assert(id !== null, "Cannot save CollateralRelief entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save unfilledCollateralReliefs entity with non-string ID. " +
+      "Cannot save CollateralRelief entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("unfilledCollateralReliefs", id.toString(), this);
+    store.set("CollateralRelief", id.toString(), this);
   }
 
-  static load(id: string): unfilledCollateralReliefs | null {
-    return store.get(
-      "unfilledCollateralReliefs",
-      id
-    ) as unfilledCollateralReliefs | null;
+  static load(id: string): CollateralRelief | null {
+    return store.get("CollateralRelief", id) as CollateralRelief | null;
   }
 
   get id(): string {
