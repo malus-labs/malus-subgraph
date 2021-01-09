@@ -12,15 +12,12 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
+      file: ./src/storeHub.ts
       entities:
-        - Approval
-        - CollateralReliefUpdated
-        - ExtensionUpdated
-        - MetaDataUpdated
-        - OwnerUpdated
-        - StoreBalancesUpdated
-        - StoreCreated
-        - Transfer
+        - User
+        - Ens
+        - Store
+        - CollateralRelief
       abis:
         - name: FruitToken
           file: ./abis/FruitToken.json
@@ -41,4 +38,31 @@ dataSources:
           handler: handleStoreCreated
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
-      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: ENSRegistry
+    network: ropsten
+    source:
+      address: "0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e"
+      abi: EnsRegistry
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/ensRegistry.ts
+      entities:
+        - User
+        - Ens
+        - Store
+        - CollateralRelief
+      abis:
+        - name: EnsRegistry
+          file: ./abis/Registry.json
+      eventHandlers:
+        - event: 'Transfer(indexed bytes32,address)'
+          handler: handleTransfer
+        - event: 'NewOwner(indexed bytes32,indexed bytes32,address)'
+          handler: handleNewOwner
+        - event: 'NewResolver(indexed bytes32,address)'
+          handler: handleNewResolver
+        - event: 'NewTTL(indexed bytes32,uint64)'
+          handler: handleNewTTL
