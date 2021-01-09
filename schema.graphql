@@ -2,16 +2,17 @@ type User @entity {
   id: ID!
 }
 
-type Ens @entity {
+type Domain @entity {
   id: ID!
-  store: Store!
+  name: String
+  store: Store
 }
 
 type Store @entity {
   id: ID!
   owner: User!
   creationDate: BigInt!
-  ensName: Ens
+  ensName: Domain
   availableETH: BigInt
   availableUSDC: BigInt
   availableMUS: BigInt
