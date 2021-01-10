@@ -3,7 +3,7 @@ import {
     NewOwner,
     NewTTL
 } from "../generated/ENSRegistry/EnsRegistry"
-import { Store, Ens } from "../generated/schema"
+import { Store } from "../generated/schema"
 
 /*
 export function handleTransfer(event: Transfer): void {
