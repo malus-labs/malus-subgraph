@@ -4,7 +4,7 @@ type User @entity {
 
 type Domain @entity {
   id: ID!
-  name: String
+  name: String!
   store: Store
 }
 
