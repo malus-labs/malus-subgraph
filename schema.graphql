@@ -4,6 +4,7 @@ type User @entity {
 
 type Domain @entity {
   id: ID!
+  labelName: String!
   name: String!
   store: Store
 }
