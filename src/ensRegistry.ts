@@ -1,10 +1,14 @@
-import { crypto, ens, ByteArray } from "@graphprotocol/graph-ts"
+import { crypto, ens} from "@graphprotocol/graph-ts"
 import {
-    NewOwner 
+    NewOwner as NewOwnerEvent,
+    Transfer as TransferEvent,
 } from "../generated/ENSRegistry/EnsRegistry"
-import { Domain } from "../generated/schema"
 
-export function handleNewOwner(event: NewOwner): void {
+import { Store, Domain } from "../generated/schema"
+
+import { concat } from "./utils"
+
+export function handleNewOwner(event: NewOwnerEvent): void {
   
     let subnode = crypto.keccak256(concat(event.params.node, event.params.label)).toHexString()
     let domain = Domain.load(subnode);
@@ -28,16 +32,5 @@ export function handleNewOwner(event: NewOwner): void {
     }
 
     domain.save()
-  }
-
-// Helper for concatenating two byte arrays
-export function concat(a: ByteArray, b: ByteArray): ByteArray {
-    let out = new Uint8Array(a.length + b.length)
-    for (let i = 0; i < a.length; i++) {
-      out[i] = a[i]
-    }
-    for (let j = 0; j < b.length; j++) {
-      out[a.length + j] = b[j]
-    }
-    return out as ByteArray
 }
+
