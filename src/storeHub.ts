@@ -7,7 +7,8 @@ import {
   StoreBalancesUpdated,
   StoreCreated,
 } from "../generated/FruitToken/FruitToken"
-import { Store, User, CollateralRelief } from "../generated/schema"
+
+import { Store, User, Domain, CollateralRelief } from "../generated/schema"
 
 export function handleStoreCreated(event: StoreCreated): void {
   let user = User.load(event.params.owner.toHexString());
@@ -59,12 +60,19 @@ export function handleExtensionUpdated(event: ExtensionUpdated): void {
 
 export function handleMetaDataUpdated(event: MetaDataUpdated): void {
   let store = Store.load(event.params.store.toHexString());
-  store.country = event.params.metaData[0];
-  store.city = event.params.metaData[1];
-  store.street = event.params.metaData[2];
-  store.website = event.params.metaData[3];
-  store.type = event.params.metaData[4];
-  store.zipcode = event.params.metaData[5];
+  let domain = Domain.load(event.params.metaData[0]);
+
+  if(domain != null) {
+    if(domain.store == store.id) {
+      store.ensName = domain.id;
+    }
+  }
+  store.country = event.params.metaData[1];
+  store.city = event.params.metaData[2];
+  store.street = event.params.metaData[3];
+  store.website = event.params.metaData[4];
+  store.type = event.params.metaData[5];
+  store.zipcode = event.params.metaData[6];
   store.save();
 }
 
