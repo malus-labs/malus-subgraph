@@ -1,4 +1,4 @@
-import { crypto, ens, ByteArray} from "@graphprotocol/graph-ts"
+import { crypto, ByteArray} from "@graphprotocol/graph-ts"
 
 import {
     NameRegistered as NameRegisteredEvent,
@@ -45,13 +45,14 @@ export function handleNameTransferred(event: TransferEvent): void {
     } 
 
     if(event.params.to.toHexString() == '0x0000000000000000000000000000000000000000') {
-        domain.store = null;
-
         let store =  Store.load(domain.store);
+        
         if(store != null) {
             store.ensName = null;
+            domain.store = null;
+            store.save();
+            domain.save();
         }
-        return;
     }
 }
 

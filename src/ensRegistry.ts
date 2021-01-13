@@ -34,3 +34,21 @@ export function handleNewOwner(event: NewOwnerEvent): void {
     domain.save()
 }
 
+export function handleTransfer(event: TransferEvent): void {
+    let domain = Domain.load(event.params.node.toHexString());
+
+    if(domain != null) {
+        return;  
+    }
+
+    if(event.params.owner.toHexString() == '0x0000000000000000000000000000000000000000'){
+        let store = Store.load(domain.store);
+        
+        if(store != null) {
+            store.ensName = null;
+            domain.store = null;
+            store.save();
+            domain.save();
+        }
+    }
+}
