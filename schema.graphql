@@ -7,7 +7,7 @@ type Domain @entity {
   labelName: String!
   name: String!
   store: Store
-  isVerified: bool
+  isVerified: Boolean
 }
 
 type Store @entity {
