@@ -48,12 +48,10 @@ export function handleNameTransferred(event: TransferEvent): void {
         let store =  Store.load(domain.store);
         
         if(store != null) {
-            store.ensName = null;
-            domain.store = null;
+            store.ensName = "";
+            domain.store = "";
             store.save();
             domain.save();
         }
     }
 }
-
-
