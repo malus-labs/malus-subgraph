@@ -14,10 +14,12 @@ export function handleAddrChanged(event: AddrChangedEvent): void {
         if(domain.store != null) {
             let oldStore = Store.load(domain.store);
             oldStore.ensName = null;
+            oldStore.save();
         }
 
         if(newStore != null) {
             domain.store = newStore.id;
+            domain.save();
         }
     }
-  }
+}
