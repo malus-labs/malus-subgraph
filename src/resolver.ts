@@ -7,13 +7,12 @@ import { Store, Domain } from "../generated/schema"
 
 export function handleAddrChanged(event: AddrChangedEvent): void {
     let domain = Domain.load(event.params.node.toHexString());
+    let newStore = Store.load(event.params.a.toHexString());
+    let oldStore = Store.load(domain.store);
 
     if(domain != null) {
-        let newStore = Store.load(event.params.a.toHexString());
-
-        if(domain.store != null) {
-            let oldStore = Store.load(domain.store);
-            oldStore.ensName = null;
+        if(oldStore != null) {
+            oldStore.ensName = "";
             oldStore.save();
         }
 
