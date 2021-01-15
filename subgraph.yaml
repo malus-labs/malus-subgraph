@@ -142,6 +142,7 @@ dataSources:
     name: Resolver
     network: ropsten
     source:
+      address: '0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85'
       abi: Resolver
     mapping:
       kind: ethereum/events
