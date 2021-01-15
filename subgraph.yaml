@@ -39,6 +39,28 @@ dataSources:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
   - kind: ethereum/contract
+    name: MalusToken
+    network: ropsten
+    source:
+      address: "0x5cB4Fb03947c78c162D67cF89B87DB6bfD1300aF"
+      abi: MalusToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/malusToken.ts
+      entities:
+        - CollateralRelief
+        - Domain
+        - Store
+        - User
+      abis:
+        - name: MalusToken
+          file: ./abis/MalusToken.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+  - kind: ethereum/contract
     name: Verification
     network: ropsten
     source:
@@ -48,7 +70,7 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
-      file: ./src/storeHub.ts
+      file: ./src/verification.ts
       entities:
         - CollateralRelief
         - Domain

@@ -17,4 +17,5 @@ export function handleUpdateVerification(event: UpdateVerification): void {
     else {
         domain.isVerified = false;
     }
+    domain.save();
 }
