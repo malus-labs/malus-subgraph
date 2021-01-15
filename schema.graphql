@@ -16,7 +16,7 @@ type Store @entity {
   creationDate: BigInt!
   ensName: Domain
   availableETH: BigInt
-  availableUSDC: BigInt
+  availableDAI: BigInt
   availableMUS: BigInt
   stake: BigInt
   collateral: BigInt
