@@ -32,7 +32,7 @@ type Store @entity {
 
 type CollateralRelief @entity {
   id: ID! 
-  rate: Int!
+  rate: BigInt!
   amount: BigInt!
   store: Store!
 }
