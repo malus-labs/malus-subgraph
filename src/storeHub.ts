@@ -22,7 +22,7 @@ export function handleStoreCreated(event: StoreCreated): void {
   let zeroValue = new BigInt(0);
   store.owner = user.id;
   store.availableETH = zeroValue;
-  store.availableUSDC = zeroValue;
+  store.availableDAI = zeroValue;
   store.availableMUS = zeroValue;
   store.stake = zeroValue;
   store.collateral = zeroValue;
