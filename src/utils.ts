@@ -18,7 +18,7 @@ export function byteArrayFromHex(s: string): ByteArray {
     }
     let out = new Uint8Array(s.length / 2)
     for(var i = 0; i < s.length; i += 2) {
-      out[i / 2] = parseInt(s.substring(i, i + 2), 16)
+      out[i / 2] = parseInt(s.substring(i, i + 2), 16) as u32
     }
     return out as ByteArray;
 }

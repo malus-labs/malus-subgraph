@@ -60,19 +60,20 @@ export function handleExtensionUpdated(event: ExtensionUpdated): void {
 
 export function handleMetaDataUpdated(event: MetaDataUpdated): void {
   let store = Store.load(event.params.store.toHexString());
-  let domain = Domain.load(event.params.metaData[0]);
+  let metaData = event.params.metaData;
+  let domain = Domain.load(metaData[0]);
 
   if(domain != null) {
     if(domain.store == store.id) {
       store.ensName = domain.id;
     }
   }
-  store.country = event.params.metaData[1];
-  store.city = event.params.metaData[2];
-  store.street = event.params.metaData[3];
-  store.website = event.params.metaData[4];
-  store.type = event.params.metaData[5];
-  store.zipcode = event.params.metaData[6];
+  store.country = metaData[1];
+  store.city = metaData[2];
+  store.street = metaData[3];
+  store.website = metaData[4];
+  store.type = metaData[5];
+  store.zipcode = metaData[6];
   store.save();
 }
 
@@ -102,6 +103,6 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
   collateralRelief.save();
 }
 
-function getCollateralReliefID(store: string, rate: string) {
+function getCollateralReliefID(store: string, rate: string): string {
   return store.concat(rate);
 }
