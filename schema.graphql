@@ -4,8 +4,8 @@ type User @entity {
 
 type Domain @entity {
   id: ID!
-  labelName: String!
-  name: String!
+  labelName: String
+  name: String
   store: Store
   isVerified: Boolean
 }
