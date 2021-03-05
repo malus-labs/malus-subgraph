@@ -20,7 +20,7 @@ export function handleStoreCreated(event: StoreCreated): void {
 
   let store = new Store(event.params.store.toHex());
   let zeroValue = new BigInt(0);
-  store.address = event.params.owner.toHexString();
+  store.address = event.params.store.toHexString();
   store.owner = user.id;
   store.availableETH = zeroValue;
   store.availableDAI = zeroValue;
