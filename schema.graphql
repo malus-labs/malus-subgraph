@@ -25,6 +25,7 @@ type Store @entity {
   extension: Bytes
   country: String
   city: String
+  name: String
   street: String
   website: String
   type: String
