@@ -16,15 +16,14 @@ type Store @entity {
   creationDate: BigInt!
   ensName: Domain
   address: String!
-  availableETH: BigInt
   availableDAI: BigInt
-  availableMUS: BigInt
   stake: BigInt
   collateral: BigInt
   collateralRelief: BigInt
   extension: Bytes
   country: String
   city: String
+  isVerified: Boolean
   name: String
   street: String
   website: String
