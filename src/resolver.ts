@@ -14,6 +14,7 @@ export function handleAddrChanged(event: AddrChangedEvent): void {
         if(oldStore != null) {
             domain.store = null;
             oldStore.ensName = null;
+            oldStore.name = null;
             oldStore.save();
         }
 

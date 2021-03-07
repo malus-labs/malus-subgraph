@@ -67,6 +67,7 @@ export function handleMetaDataUpdated(event: MetaDataUpdated): void {
   if(domain != null) {
     if(domain.store == store.id) {
       store.ensName = domain.id;
+      store.name = domain.name;
     }
   }
   store.country = metaData[1];
