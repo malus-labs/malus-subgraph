@@ -1,6 +1,39 @@
-type ExampleEntity @entity {
+type User @entity {
   id: ID!
-  count: BigInt!
-  _owner: Bytes! # address
-  _spender: Bytes! # address
+}
+
+type Domain @entity {
+  id: ID!
+  labelName: String
+  name: String
+  store: Store
+  isVerified: Boolean
+}
+
+type Store @entity {
+  id: ID!
+  owner: User!
+  creationDate: BigInt!
+  ensName: Domain
+  address: String!
+  availableETH: BigInt
+  availableDAI: BigInt
+  availableMUS: BigInt
+  stake: BigInt
+  collateral: BigInt
+  collateralRelief: BigInt
+  extension: Bytes
+  country: String
+  city: String
+  street: String
+  website: String
+  type: String
+  zipcode: String
+}
+
+type CollateralRelief @entity {
+  id: ID! 
+  rate: BigInt!
+  amount: BigInt!
+  store: Store!
 }
