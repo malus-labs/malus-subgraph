@@ -25,6 +25,7 @@ export function handleStoreCreated(event: StoreCreated): void {
   store.availableETH = zeroValue;
   store.availableDAI = zeroValue;
   store.availableMUS = zeroValue;
+  store.isVerified = false;
   store.stake = zeroValue;
   store.collateral = zeroValue;
   store.collateralRelief = zeroValue;
@@ -59,7 +60,7 @@ export function handleExtensionUpdated(event: ExtensionUpdated): void {
   store.save();
 }
 
-export function handleMetaDataUpdated(event: MetaDataUpdated): void {
+export function handleMetaDataUpdated(event: MetaDataUpdated): void { 
   let store = Store.load(event.params.store.toHexString());
   let metaData = event.params.metaData;
   let domain = Domain.load(metaData[0]);
@@ -68,6 +69,7 @@ export function handleMetaDataUpdated(event: MetaDataUpdated): void {
     if(domain.store == store.id) {
       store.ensName = domain.id;
       store.name = domain.name;
+      store.isVerified = domain.isVerified;
     }
   }
   store.country = metaData[1];

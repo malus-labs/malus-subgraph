@@ -19,6 +19,7 @@ var rootNode:ByteArray = byteArrayFromHex("93cdeb708b7545dc668eb9280176169d1c33c
 export function handleNameRegistered(event: NameRegisteredEvent): void {
     let label = uint256ToByteArray(event.params.id)
     let domain = new Domain(crypto.keccak256(concat(rootNode, label)).toHexString());
+    domain.isVerified = false;
     domain.save();
 }
 
@@ -27,6 +28,7 @@ export function handleNameRegisteredByController(event: ControllerNameRegistered
 
     if(domain == null) {
         domain = new Domain(crypto.keccak256(concat(rootNode, event.params.label)).toHexString());
+        domain.isVerified = false;
     }
 
     if(domain.labelName !== event.params.name) {
@@ -50,6 +52,8 @@ export function handleNameTransferred(event: TransferEvent): void {
         if(store != null) {
             store.ensName = null;
             domain.store = null;
+            store.name = null;
+            store.isVerified = false;
             store.save();
             domain.save();
         }

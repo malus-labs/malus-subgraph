@@ -6,7 +6,7 @@ import { Domain, Store } from "../generated/schema"
 
 export function handleUpdateVerification(event: UpdateVerification): void {
     let domain = Domain.load(event.params.node.toHexString());
-    let store = Store.load(domain.store)
+    let store = Store.load(domain.store);
 
     if(domain == null) {
         return;
@@ -24,5 +24,6 @@ export function handleUpdateVerification(event: UpdateVerification): void {
             store.isVerified = false;
         }
     }
+    store.save();
     domain.save();
 }
