@@ -3,12 +3,22 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "malusTokenAddress",
+				"name": "_usdcContract",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_sender",
+				"name": "_usdtStoreHub",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_daiStoreHub",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_implementation",
 				"type": "address"
 			}
 		],
@@ -58,12 +68,6 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "availableFunds",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
 				"name": "rate",
 				"type": "uint256"
 			},
@@ -107,25 +111,6 @@
 			},
 			{
 				"indexed": false,
-				"internalType": "string[7]",
-				"name": "metaData",
-				"type": "string[7]"
-			}
-		],
-		"name": "MetaDataUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "store",
-				"type": "address"
-			},
-			{
-				"indexed": false,
 				"internalType": "address",
 				"name": "newOwner",
 				"type": "address"
@@ -146,23 +131,17 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "collateral",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
 				"name": "stake",
 				"type": "uint256"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "availableFunds",
+				"name": "collateral",
 				"type": "uint256"
 			}
 		],
-		"name": "StoreBalancesUpdated",
+		"name": "StakeCollateralUpdated",
 		"type": "event"
 	},
 	{
@@ -214,24 +193,6 @@
 		],
 		"name": "Transfer",
 		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address payable",
-				"name": "_store",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "addStake",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"inputs": [
@@ -303,9 +264,19 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "_to",
+				"internalType": "contract StoreInterface",
+				"name": "_store",
 				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenID",
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
@@ -313,9 +284,55 @@
 				"type": "uint256"
 			}
 		],
-		"name": "collectFee",
+		"name": "burn",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_value1",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_value2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_value3",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "_value4",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_option",
+				"type": "uint256"
+			}
+		],
+		"name": "callEvent",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "daiStoreHub",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -339,32 +356,14 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "feeCollector",
-		"outputs": [
+		"inputs": [
 			{
 				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_store",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_owner",
-				"type": "address"
-			}
-		],
-		"name": "isOwner",
+		"name": "isValidStore",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -378,61 +377,23 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
+				"internalType": "contract StoreInterface",
 				"name": "_store",
-				"type": "address"
-			}
-		],
-		"name": "isStoreValid",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "malusToken",
-		"outputs": [
-			{
-				"internalType": "contract Proxy",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_customer",
 				"type": "address"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_paymentReceived",
+				"name": "_tokenID",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
 				"type": "uint256"
 			}
 		],
 		"name": "mint",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "success",
-				"type": "bool"
-			},
-			{
-				"internalType": "uint256",
-				"name": "balance",
-				"type": "uint256"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -452,111 +413,33 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address payable",
-				"name": "_store",
+				"internalType": "address",
+				"name": "",
 				"type": "address"
-			},
+			}
+		],
+		"name": "storeBalance",
+		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_rate",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "provideCollateralRelief",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "storeImplementation",
+		"outputs": [
 			{
 				"internalType": "address",
-				"name": "_store",
+				"name": "",
 				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_rate",
-				"type": "uint256"
 			}
 		],
-		"name": "removeCollateralRelief",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address payable",
-				"name": "_store",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "removeStake",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address payable",
-				"name": "_fromStore",
-				"type": "address"
-			},
-			{
-				"internalType": "address payable",
-				"name": "_toStore",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint16",
-				"name": "_rate",
-				"type": "uint16"
-			}
-		],
-		"name": "sellCollateral",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_store",
-				"type": "address"
-			},
-			{
-				"internalType": "string[7]",
-				"name": "_metaData",
-				"type": "string[7]"
-			}
-		],
-		"name": "setMetaData",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -612,29 +495,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address payable",
-				"name": "_fromStore",
-				"type": "address"
-			},
-			{
-				"internalType": "address payable",
-				"name": "_toStore",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transferCollateral",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "_from",
 				"type": "address"
@@ -662,62 +522,42 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "usdcContract",
+		"outputs": [
 			{
-				"internalType": "address payable",
-				"name": "_store",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_newExtension",
+				"internalType": "contract ERC20",
+				"name": "",
 				"type": "address"
 			}
 		],
-		"name": "updateExtension",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address payable",
-				"name": "_store",
-				"type": "address"
-			},
+		"inputs": [],
+		"name": "usdtStoreHub",
+		"outputs": [
 			{
 				"internalType": "address",
-				"name": "_newOwner",
+				"name": "",
 				"type": "address"
 			}
 		],
-		"name": "updateStoreOwner",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_amount",
+				"name": "_collateral",
 				"type": "uint256"
 			}
 		],
 		"name": "withdraw",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
+		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"stateMutability": "payable",
-		"type": "receive"
 	}
 ]

@@ -1,3 +1,4 @@
+/*
 import { BigInt } from "@graphprotocol/graph-ts"
 import {
   CollateralReliefUpdated,
@@ -5,7 +6,7 @@ import {
   OwnerUpdated,
   StoreBalancesUpdated,
   StoreCreated,
-} from "../generated/FruitToken/FruitToken"
+} from "../generated/mUSDC/mUSDC"
 
 import { Store, User, CollateralRelief } from "../generated/schema"
 
@@ -88,3 +89,4 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
 function getCollateralReliefID(store: string, rate: string): string {
   return store.concat(rate);
 }
+*/
