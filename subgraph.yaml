@@ -12,7 +12,7 @@ dataSources:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
-      file: ./src/storeHub.ts
+      file: ./src/mUSDC.ts
       entities:
         - CollateralRelief
         - Domain
@@ -36,28 +36,6 @@ dataSources:
           handler: handleStoreBalancesUpdated
         - event: StoreCreated(indexed address,address,uint256)
           handler: handleStoreCreated
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
-  - kind: ethereum/contract
-    name: MalusToken
-    network: ropsten
-    source:
-      address: "0x5194B9f4B7eFdB0195512Cd05d678564ac31D69a"
-      abi: MalusToken
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.4
-      language: wasm/assemblyscript
-      file: ./src/malusToken.ts
-      entities:
-        - CollateralRelief
-        - Domain
-        - Store
-        - User
-      abis:
-        - name: MalusToken
-          file: ./abis/MalusToken.json
-      eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
   - kind: ethereum/contract
