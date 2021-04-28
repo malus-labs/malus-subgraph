@@ -61,6 +61,28 @@ dataSources:
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
   - kind: ethereum/contract
+    name: USDC
+    network: ropsten
+    source:
+      address: "0x96D8C9A312f1c72Deb89729198CE20b6b6147344"
+      abi: USDC
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/USDC.ts
+      entities:
+        - CollateralRelief
+        - Domain
+        - Store
+        - User
+      abis:
+        - name: USDC
+          file: ./abis/USDC.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+  - kind: ethereum/contract
     name: Metadata
     network: ropsten
     source:

@@ -1,11 +1,11 @@
-/*
 import { BigInt } from "@graphprotocol/graph-ts"
 import {
   CollateralReliefUpdated,
   ExtensionUpdated,
   OwnerUpdated,
-  StoreBalancesUpdated,
+  StakeCollateralUpdated,
   StoreCreated,
+  Transfer,
 } from "../generated/mUSDC/mUSDC"
 
 import { Store, User, CollateralRelief } from "../generated/schema"
@@ -22,9 +22,8 @@ export function handleStoreCreated(event: StoreCreated): void {
   let zeroValue = new BigInt(0);
   store.address = event.params.store.toHexString();
   store.owner = user.id;
-  //store.availableETH = zeroValue;
-  //store.availableDAI = zeroValue;
-  //store.availableMUS = zeroValue;
+  store.availableAUSDC = zeroValue;
+  store.availableUSDC = zeroValue;
   store.isVerified = false;
   store.stake = zeroValue;
   store.collateral = zeroValue;
@@ -46,7 +45,7 @@ export function handleOwnerUpdated(event: OwnerUpdated): void {
   store.save();
 }
 
-export function handleStoreBalancesUpdated(event: StoreBalancesUpdated): void {
+export function handleStoreBalancesUpdated(event: StakeCollateralUpdated): void {
   let store = Store.load(event.params.store.toHexString());
   //store.availableETH = event.params.availableFunds;
   store.stake = event.params.stake;
@@ -86,7 +85,22 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
   collateralRelief.save();
 }
 
+export function handleTransfer(event: Transfer): void {
+  let toStore = Store.load(event.params._to.toHexString());
+  let fromStore = Store.load(event.params._from.toHexString());
+
+  if(toStore != null) {
+      toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params._amount);
+      toStore.collateral = toStore.collateral.minus(event.params._amount);
+      toStore.save();
+  }
+
+  if(fromStore != null) {
+      fromStore.stake = fromStore.stake.minus(event.params._amount);
+      fromStore.save();
+  }
+}
+
 function getCollateralReliefID(store: string, rate: string): string {
   return store.concat(rate);
 }
-*/
