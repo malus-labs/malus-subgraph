@@ -1,4 +1,5 @@
-import { MetaDataUpdated } from "../generated/FruitToken/FruitToken"
+/*
+import { MetaDataUpdated } from "../generated/Metadata/Metadata"
 import { Store, Domain } from "../generated/schema"
 
 export function handleMetaDataUpdated(event: MetaDataUpdated): void { 
@@ -21,3 +22,4 @@ export function handleMetaDataUpdated(event: MetaDataUpdated): void {
     store.zipcode = metaData[6];
     store.save();
   }
+  */

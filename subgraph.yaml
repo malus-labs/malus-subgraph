@@ -3,11 +3,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: FruitToken
+    name: mUSDC
     network: ropsten
     source:
       address: "0xB482E55523c5AE0Da7fb332200435F3bF0F87FDf"
-      abi: FruitToken
+      abi: mUSDC
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -19,25 +19,69 @@ dataSources:
         - Store
         - User
       abis:
-        - name: FruitToken
-          file: ./abis/FruitToken.json
+        - name: mUSDC
+          file: ./abis/mUSDC.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,uint256)
           handler: handleApproval
-        - event: CollateralReliefUpdated(indexed address,uint256,uint256,uint256,bool)
+        - event: CollateralReliefUpdated(indexed address,uint256,uint256,bool)
           handler: handleCollateralReliefUpdated
         - event: ExtensionUpdated(indexed address,address)
           handler: handleExtensionUpdated
-        - event: MetaDataUpdated(indexed address,string[7])
-          handler: handleMetaDataUpdated
         - event: OwnerUpdated(indexed address,address)
           handler: handleOwnerUpdated
-        - event: StoreBalancesUpdated(indexed address,uint256,uint256,uint256)
-          handler: handleStoreBalancesUpdated
+        - event: StakeCollateralUpdated(indexed address,uint256,uint256)
+          handler: handleStakeCollateralUpdated
         - event: StoreCreated(indexed address,address,uint256)
           handler: handleStoreCreated
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
+  - kind: ethereum/contract
+    name: aUSDC
+    network: ropsten
+    source:
+      address: "0x96D8C9A312f1c72Deb89729198CE20b6b6147344"
+      abi: aUSDC
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/aUSDC.ts
+      entities:
+        - CollateralRelief
+        - Domain
+        - Store
+        - User
+      abis:
+        - name: aUSDC
+          file: ./abis/aUSDC.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+  - kind: ethereum/contract
+    name: Metadata
+    network: ropsten
+    source:
+      address: "0x96D8C9A312f1c72Deb89729198CE20b6b6147344"
+      abi: Metadata
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/metadata.ts
+      entities:
+        - CollateralRelief
+        - Domain
+        - Store
+        - User
+      abis:
+        - name: Metadata
+          file: ./abis/Metadata.json
+      eventHandlers:
+        - event: MetaDataUpdated(indexed address,string[7])
+          handler: handleMetaDataUpdated
   - kind: ethereum/contract
     name: Verification
     network: ropsten
