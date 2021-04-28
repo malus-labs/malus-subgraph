@@ -3,7 +3,8 @@ import {
   CollateralReliefUpdated,
   ExtensionUpdated,
   OwnerUpdated,
-  StakeCollateralUpdated,
+  CollateralUpdated,
+  StakeUpdated,
   StoreCreated,
   Transfer,
 } from "../generated/mUSDC/mUSDC"
@@ -45,11 +46,22 @@ export function handleOwnerUpdated(event: OwnerUpdated): void {
   store.save();
 }
 
-export function handleStoreBalancesUpdated(event: StakeCollateralUpdated): void {
+export function handleCollateralUpdated(event: CollateralUpdated): void {
   let store = Store.load(event.params.store.toHexString());
-  //store.availableETH = event.params.availableFunds;
-  store.stake = event.params.stake;
   store.collateral = event.params.collateral;
+  store.save();
+}
+
+export function handleStakeUpdated(event: StakeUpdated): void {
+  let store = Store.load(event.params.store.toHexString());
+  let zeroValue = new BigInt(0);
+
+  if(event.params.stake == zeroValue) {
+    store.stake = zeroValue;
+  }
+  else {
+    store.stake = store.stake.plus(event.params.stake);
+  }
   store.save();
 }
 
@@ -90,7 +102,7 @@ export function handleTransfer(event: Transfer): void {
   let fromStore = Store.load(event.params._from.toHexString());
 
   if(toStore != null) {
-      toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params._amount);
+      toStore.availableUSDC = toStore.availableAUSDC.plus(event.params._amount);
       toStore.collateral = toStore.collateral.minus(event.params._amount);
       toStore.save();
   }

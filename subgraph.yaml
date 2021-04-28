@@ -30,8 +30,10 @@ dataSources:
           handler: handleExtensionUpdated
         - event: OwnerUpdated(indexed address,address)
           handler: handleOwnerUpdated
-        - event: StakeCollateralUpdated(indexed address,uint256,uint256)
-          handler: handleStakeCollateralUpdated
+        - event: CollateralUpdated(indexed address,uint256)
+          handler: handleCollateralUpdated
+        - event: StakeUpdated(indexed address,uint256)
+          handler: handleStakeUpdated
         - event: StoreCreated(indexed address,address,uint256)
           handler: handleStoreCreated
         - event: Transfer(indexed address,indexed address,uint256)
