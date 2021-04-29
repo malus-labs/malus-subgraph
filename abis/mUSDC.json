@@ -92,6 +92,25 @@
 			},
 			{
 				"indexed": false,
+				"internalType": "uint256",
+				"name": "collateral",
+				"type": "uint256"
+			}
+		],
+		"name": "CollateralUpdated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "store",
+				"type": "address"
+			},
+			{
+				"indexed": false,
 				"internalType": "address",
 				"name": "extension",
 				"type": "address"
@@ -133,15 +152,9 @@
 				"internalType": "uint256",
 				"name": "stake",
 				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "collateral",
-				"type": "uint256"
 			}
 		],
-		"name": "StakeCollateralUpdated",
+		"name": "StakeUpdated",
 		"type": "event"
 	},
 	{
