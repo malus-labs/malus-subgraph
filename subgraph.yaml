@@ -6,7 +6,7 @@ dataSources:
     name: mUSDC
     network: ropsten
     source:
-      address: "0xB482E55523c5AE0Da7fb332200435F3bF0F87FDf"
+      address: "0xBFCdDF4d8d5bcf59e310D6E8F74b44c48dA93082"
       abi: mUSDC
     mapping:
       kind: ethereum/events
@@ -42,7 +42,7 @@ dataSources:
     name: aUSDC
     network: ropsten
     source:
-      address: "0x96D8C9A312f1c72Deb89729198CE20b6b6147344"
+      address: "0x37caf2d37ba06F9b8981aAb779f508e147a00C4d"
       abi: aUSDC
     mapping:
       kind: ethereum/events
@@ -66,7 +66,7 @@ dataSources:
     name: USDC
     network: ropsten
     source:
-      address: "0x96D8C9A312f1c72Deb89729198CE20b6b6147344"
+      address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F"
       abi: USDC
     mapping:
       kind: ethereum/events
@@ -88,7 +88,7 @@ dataSources:
     name: Metadata
     network: ropsten
     source:
-      address: "0x96D8C9A312f1c72Deb89729198CE20b6b6147344"
+      address: "0xEF7d54217532139947659E09811cb01cF4969E4C"
       abi: Metadata
     mapping:
       kind: ethereum/events
@@ -110,7 +110,7 @@ dataSources:
     name: Verification
     network: ropsten
     source:
-      address: "0x96D8C9A312f1c72Deb89729198CE20b6b6147344"
+      address: "0x52BbB0E8e2BEf586194eE6b9B27DaD2872881944"
       abi: Verification
     mapping:
       kind: ethereum/events
