@@ -4,9 +4,9 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: mUSDC
-    network: ropsten
+    network: rinkeby
     source:
-      address: "0xBFCdDF4d8d5bcf59e310D6E8F74b44c48dA93082"
+      address: "0xe62405eD288Dd18360A88f1aBDdE05306C640984"
       abi: mUSDC
     mapping:
       kind: ethereum/events
@@ -40,9 +40,9 @@ dataSources:
           handler: handleTransfer
   - kind: ethereum/contract
     name: aUSDC
-    network: ropsten
+    network: rinkeby
     source:
-      address: "0x37caf2d37ba06F9b8981aAb779f508e147a00C4d"
+      address: "0xBBDa05F84932ec5D533839F95039B0B9239F3db5"
       abi: aUSDC
     mapping:
       kind: ethereum/events
@@ -64,9 +64,9 @@ dataSources:
           handler: handleTransfer
   - kind: ethereum/contract
     name: USDC
-    network: ropsten
+    network: rinkeby
     source:
-      address: "0x07865c6E87B9F70255377e024ace6630C1Eaa37F"
+      address: "0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b"
       abi: USDC
     mapping:
       kind: ethereum/events
@@ -86,9 +86,9 @@ dataSources:
           handler: handleTransfer
   - kind: ethereum/contract
     name: Metadata
-    network: ropsten
+    network: rinkeby
     source:
-      address: "0xEF7d54217532139947659E09811cb01cF4969E4C"
+      address: "0x8a209261d22Aab921C49b6FD359ee7C9BbaAfD33"
       abi: Metadata
     mapping:
       kind: ethereum/events
@@ -108,9 +108,9 @@ dataSources:
           handler: handleMetaDataUpdated
   - kind: ethereum/contract
     name: Verification
-    network: ropsten
+    network: rinkeby
     source:
-      address: "0x52BbB0E8e2BEf586194eE6b9B27DaD2872881944"
+      address: "0x6dAAA0C4CAa1afCD0F2086f462272f410ed22922"
       abi: Verification
     mapping:
       kind: ethereum/events
@@ -130,7 +130,7 @@ dataSources:
           handler: handleUpdateVerification
   - kind: ethereum/contract
     name: ENSRegistry
-    network: ropsten
+    network: rinkeby
     source:
       address: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
       abi: EnsRegistry
@@ -154,7 +154,7 @@ dataSources:
           handler: handleNewOwner
   - kind: ethereum/contract
     name: ENSRegistryOld
-    network: ropsten
+    network: rinkeby
     source:
       address: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e'
       abi: EnsRegistry
@@ -178,9 +178,9 @@ dataSources:
           handler: handleNewOwner
   - kind: ethereum/contract
     name: Resolver
-    network: ropsten
+    network: rinkeby
     source:
-      address: '0x42D63ae25990889E35F215bC95884039Ba354115'
+      address: '0xDaaF96c344f63131acadD0Ea35170E7892d3dfBA'
       abi: Resolver
     mapping:
       kind: ethereum/events
@@ -200,7 +200,7 @@ dataSources:
           handler: handleAddrChanged
   - kind: ethereum/contract
     name: BaseRegistrar
-    network: ropsten
+    network: rinkeby
     source:
       address: '0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85'
       abi: BaseRegistrar
@@ -224,7 +224,7 @@ dataSources:
           handler: handleNameTransferred
   - kind: ethereum/contract
     name: EthRegistrarController
-    network: ropsten
+    network: rinkeby
     source:
       address: '0x283Af0B28c62C092C9727F1Ee09c02CA627EB7F5'
       abi: EthRegistrarController
