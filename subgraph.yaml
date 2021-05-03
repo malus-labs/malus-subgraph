@@ -88,7 +88,7 @@ dataSources:
     name: Metadata
     network: rinkeby
     source:
-      address: "0x8a209261d22Aab921C49b6FD359ee7C9BbaAfD33"
+      address: "0xddf11b8FFB110bCa0883fB9485CA91d76A1C60fA"
       abi: Metadata
     mapping:
       kind: ethereum/events
