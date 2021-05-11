@@ -88,7 +88,7 @@ dataSources:
     name: Metadata
     network: rinkeby
     source:
-      address: "0x8a209261d22Aab921C49b6FD359ee7C9BbaAfD33"
+      address: "0xddf11b8FFB110bCa0883fB9485CA91d76A1C60fA"
       abi: Metadata
     mapping:
       kind: ethereum/events
@@ -180,7 +180,7 @@ dataSources:
     name: Resolver
     network: rinkeby
     source:
-      address: '0xDaaF96c344f63131acadD0Ea35170E7892d3dfBA'
+      address: '0xf6305c19e814d2a75429Fd637d01F7ee0E77d615'
       abi: Resolver
     mapping:
       kind: ethereum/events
