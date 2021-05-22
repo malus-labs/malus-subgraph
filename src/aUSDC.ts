@@ -11,7 +11,7 @@ export function handleTransfer(event: Transfer): void {
     }
 
     if(fromStore != null) {
-        fromStore.availableAUSDC = toStore.availableAUSDC.minus(event.params._amount);
+        fromStore.availableAUSDC = fromStore.availableAUSDC.minus(event.params._amount);
         fromStore.save();
     }
 }

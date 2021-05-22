@@ -6,12 +6,12 @@ export function handleTransfer(event: Transfer): void {
     let fromStore = Store.load(event.params.from.toHexString());
 
     if(toStore != null) {
-        toStore.availableUSDC = toStore.availableAUSDC.plus(event.params.value);
+        toStore.availableUSDC = toStore.availableUSDC.plus(event.params.value);
         toStore.save();
     }
 
     if(fromStore != null) {
-        fromStore.availableUSDC = toStore.availableAUSDC.minus(event.params.value);
+        fromStore.availableUSDC = fromStore.availableUSDC.minus(event.params.value);
         fromStore.save();
     }
 }
