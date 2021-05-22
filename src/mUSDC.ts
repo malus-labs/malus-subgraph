@@ -65,6 +65,7 @@ export function handleStakeUpdated(event: StakeUpdated): void {
     store.stake = zeroValue;
   }
   else {
+    store.availableAUSDC = store.availableAUSDC.minus(event.params.stake);
     store.stake = store.stake.plus(event.params.stake);
   }
   store.save();
