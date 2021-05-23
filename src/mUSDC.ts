@@ -59,14 +59,16 @@ export function handleCollateralUpdated(event: CollateralUpdated): void {
 
 export function handleStakeUpdated(event: StakeUpdated): void {
   let store = Store.load(event.params.store.toHexString());
+  let stakeLeftOver = store.stake as BigInt;
   let zeroValue = new BigInt(0);
 
   if(event.params.stake == zeroValue) {
+    store.availableAUSDC = store.availableAUSDC.plus(stakeLeftOver);
     store.stake = zeroValue;
   }
   else {
     store.availableAUSDC = store.availableAUSDC.minus(event.params.stake);
-    store.stake = store.stake.plus(event.params.stake);
+    store.stake =  store.stake.plus(event.params.stake);
   }
   store.save();
 }
@@ -108,7 +110,7 @@ export function handleTransfer(event: Transfer): void {
   let fromStore = Store.load(event.params._from.toHexString());
 
   if(toStore != null) {
-      toStore.availableUSDC = toStore.availableAUSDC.plus(event.params._amount);
+      toStore.availableUSDC = toStore.availableUSDC.plus(event.params._amount);
       toStore.collateral = toStore.collateral.minus(event.params._amount);
       toStore.save();
   }
