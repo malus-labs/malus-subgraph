@@ -13,6 +13,12 @@ export function handleMetaDataUpdated(event: MetaDataUpdated): void {
         store.isVerified = domain.isVerified;
       }
     }
+    else if(metaData[0] == "") {
+      store.ensName = null;
+      store.name = null;
+      store.isVerified = false;
+    }
+
     store.country = metaData[1];
     store.city = metaData[2];
     store.street = metaData[3];
