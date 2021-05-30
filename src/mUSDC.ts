@@ -30,6 +30,7 @@ export function handleStoreCreated(event: StoreCreated): void {
   store.collateral = zeroValue;
   store.collateralRelief = zeroValue;
   store.creationDate = event.params.creationDate;
+  store.country = "";
   store.city = "";
   store.street = "";
   store.website = "";
