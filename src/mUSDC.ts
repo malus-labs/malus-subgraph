@@ -109,18 +109,17 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
 export function handleTransfer(event: Transfer): void {
   let toStore = Store.load(event.params._to.toHexString());
   let fromStore = Store.load(event.params._from.toHexString());
-  let multiplier = new BigInt(100/7);
-  let amount = (event.params._amount.times(multiplier));
+  let amountPaid = (event.params._amount.times(BigInt.fromI32(10000))).div(BigInt.fromI32(700));
 
   if(toStore != null) {
     toStore.collateral = toStore.collateral.minus(event.params._amount);
-    toStore.availableAUSDC = toStore.availableAUSDC.plus(amount);
+    toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params._amount);
     toStore.save();
   }
 
   if(fromStore != null) {
     fromStore.stake = fromStore.stake.minus(event.params._amount);
-    fromStore.availableUSDC = fromStore.availableUSDC.plus(amount);
+    fromStore.availableUSDC = fromStore.availableUSDC.plus(amountPaid);
     fromStore.save();
   }
 }
