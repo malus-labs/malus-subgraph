@@ -6,7 +6,7 @@ dataSources:
     name: mUSDC
     network: rinkeby
     source:
-      address: "0x3B01442Fd5b455e2E9A9a4a2edE10DF6371a44Ff"
+      address: "0x42dACA14077244e09604544C8E7549C82069B9D6"
       abi: mUSDC
     mapping:
       kind: ethereum/events
@@ -30,8 +30,10 @@ dataSources:
           handler: handleExtensionUpdated
         - event: OwnerUpdated(indexed address,address)
           handler: handleOwnerUpdated
-        - event: CollateralUpdated(indexed address,uint256)
-          handler: handleCollateralUpdated
+        - event: CollateralTransfer(indexed address,address,uint256,uint256,bool)
+          handler: handleCollateralTransfer
+        - event: AtokenTransfer(indexed address,address,uint256)
+          handler: handleAtokenTransfer 
         - event: StakeUpdated(indexed address,uint256)
           handler: handleStakeUpdated
         - event: StoreCreated(indexed address,address,uint256)
@@ -88,7 +90,7 @@ dataSources:
     name: Metadata
     network: rinkeby
     source:
-      address: "0x61fBdfAb90Dcdea7bf7447959736941BAa2428ED"
+      address: "0x95909874AB83777ea3C5ED1Eec382b0c6F3F46a0"
       abi: Metadata
     mapping:
       kind: ethereum/events

@@ -3,7 +3,8 @@ import {
   CollateralReliefUpdated,
   ExtensionUpdated,
   OwnerUpdated,
-  CollateralUpdated,
+  CollateralTransfer,
+  AtokenTransfer,
   StakeUpdated,
   StoreCreated,
   Transfer,
@@ -39,6 +40,7 @@ export function handleStoreCreated(event: StoreCreated): void {
   store.save();
 }
 
+
 export function handleOwnerUpdated(event: OwnerUpdated): void {
   let user = User.load(event.params.newOwner.toHexString());
 
@@ -52,33 +54,80 @@ export function handleOwnerUpdated(event: OwnerUpdated): void {
   store.save();
 }
 
-export function handleCollateralUpdated(event: CollateralUpdated): void {
-  let store = Store.load(event.params.store.toHexString());
-  store.collateral = event.params.collateral;
-  store.save();
+
+export function handleAtokenTransfer(event: AtokenTransfer): void {
+  let toStore = Store.load(event.params.to.toHexString());
+  let fromStore = Store.load(event.params.store.toHexString());
+
+  fromStore.availableAUSDC = fromStore.availableAUSDC.minus(event.params.amount);
+  fromStore.save();
+
+  if(toStore != null) {
+    toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params.amount);
+    toStore.save();
+  }
 }
+
+
+export function handleCollateralTransfer(event: CollateralTransfer): void {
+  let fromStore = Store.load(event.params.store.toHexString());
+  let toStore = Store.load(event.params.to.toHexString());
+  let zeroValue = new BigInt(0);
+
+  if(event.params.didTrade == false) {
+    if(event.params.store.toHexString().startsWith('0x0000000000000000000000000000000000000000') == true) {
+      let stakeLeftOver = toStore.stake as BigInt;
+
+      toStore.availableAUSDC = toStore.availableAUSDC.plus(stakeLeftOver);
+      toStore.collateral = toStore.collateral.plus(event.params.amount);
+      toStore.stake = zeroValue;
+      toStore.save(); 
+    }
+    else {
+      fromStore.collateral = fromStore.collateral.minus(event.params.amount);
+      toStore.collateral = toStore.collateral.plus(event.params.amount);
+      fromStore.save();
+      toStore.save();
+    }
+  }
+  else {
+    let amount = event.params.amount;
+    let rate = event.params.rate;
+    let lost = amount.times(rate).div(BigInt.fromI32(10000));
+    let difference = amount.minus(lost);
+
+    fromStore.collateral = fromStore.collateral.minus(amount);
+    fromStore.availableAUSDC = fromStore.availableAUSDC.plus(difference);
+
+    toStore.collateral = toStore.collateral.plus(amount);
+    toStore.availableAUSDC = toStore.availableAUSDC.plus(lost);
+    toStore.collateralRelief = toStore.collateralRelief.minus(amount);
+
+    let id = getCollateralReliefID(event.params.to.toHexString(), rate.toHexString()); 
+    let collateralRelief = CollateralRelief.load(id);
+    collateralRelief.amount = zeroValue;
+
+    fromStore.save();
+    toStore.save();
+    collateralRelief.save();
+  }
+}
+
 
 export function handleStakeUpdated(event: StakeUpdated): void {
   let store = Store.load(event.params.store.toHexString());
-  let stakeLeftOver = store.stake as BigInt;
-  let zeroValue = new BigInt(0);
-
-  if(event.params.stake == zeroValue) {
-    store.availableAUSDC = store.availableAUSDC.plus(stakeLeftOver);
-    store.stake = zeroValue;
-  }
-  else {
-    store.availableAUSDC = store.availableAUSDC.minus(event.params.stake);
-    store.stake =  store.stake.plus(event.params.stake);
-  }
+  store.availableAUSDC = store.availableAUSDC.minus(event.params.stake);
+  store.stake =  store.stake.plus(event.params.stake);
   store.save();
 }
+
 
 export function handleExtensionUpdated(event: ExtensionUpdated): void {
   let store = Store.load(event.params.store.toHexString());
   store.extension = event.params.extension;
   store.save();
 }
+
 
 export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): void {
   let id = getCollateralReliefID(event.params.store.toHexString(), event.params.rate.toHexString()); 
@@ -89,14 +138,12 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
   }
 
   let store = Store.load(event.params.store.toHexString());
-  let a = store.collateralRelief;
-  let b = event.params.collateralRelief;
   
   if(event.params.didAdd == true) {
-    store.collateralRelief = a.plus(b);
+    store.collateralRelief = store.collateralRelief.plus(event.params.collateralRelief);
   }
   else {
-    store.collateralRelief = a.minus(b);
+    store.collateralRelief = store.collateralRelief.minus(event.params.collateralRelief);
   }
   store.save();
   
@@ -105,6 +152,7 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
   collateralRelief.store = store.id;
   collateralRelief.save();
 }
+
 
 export function handleTransfer(event: Transfer): void {
   let toStore = Store.load(event.params._to.toHexString());
@@ -123,6 +171,7 @@ export function handleTransfer(event: Transfer): void {
     fromStore.save();
   }
 }
+
 
 function getCollateralReliefID(store: string, rate: string): string {
   return store.concat(rate);
