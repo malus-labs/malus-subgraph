@@ -76,12 +76,10 @@ export function handleCollateralTransfer(event: CollateralTransfer): void {
 
   if(event.params.didTrade == false) {
     if(event.params.store.toHexString().startsWith('0x0000000000000000000000000000000000000000') == true) {
-      let totalUSDCWithdraw = (event.params.amount.times(BigInt.fromI32(10000))).div(BigInt.fromI32(700));
       let stakeLeftOver = toStore.stake as BigInt;
 
       toStore.availableAUSDC = toStore.availableAUSDC.plus(stakeLeftOver);
-      toStore.availableUSDC = toStore.availableUSDC.plus(totalUSDCWithdraw);
-      toStore.collateral = toStore.availableUSDC.plus(event.params.amount);
+      toStore.collateral = toStore.collateral.plus(event.params.amount);
       toStore.stake = zeroValue;
       toStore.save(); 
     }
