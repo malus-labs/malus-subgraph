@@ -140,17 +140,21 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
   let store = Store.load(event.params.store.toHexString());
   
   if(event.params.didAdd == true) {
-    store.collateralRelief = store.collateralRelief.plus(event.params.collateralRelief);
+    store.availableAUSDC = store.availableAUSDC.minus(event.params.amount);
+    store.collateralRelief = store.collateralRelief.plus(event.params.amount);
+    collateralRelief.amount = collateralRelief.amount.plus(event.params.amount);
   }
   else {
-    store.collateralRelief = store.collateralRelief.minus(event.params.collateralRelief);
+    store.availableAUSDC = store.availableAUSDC.plus(event.params.amount);
+    store.collateralRelief = store.collateralRelief.minus(event.params.amount);
+    collateralRelief.amount = collateralRelief.amount.minus(event.params.amount);
   }
-  store.save();
+  
   
   collateralRelief.rate = event.params.rate;
-  collateralRelief.amount = event.params.collateralRelief;
   collateralRelief.store = store.id;
   collateralRelief.save();
+  store.save();
 }
 
 

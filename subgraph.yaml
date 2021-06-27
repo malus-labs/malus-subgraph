@@ -6,7 +6,7 @@ dataSources:
     name: mUSDC
     network: rinkeby
     source:
-      address: "0x42dACA14077244e09604544C8E7549C82069B9D6"
+      address: "0xa28ce059Dc1C3c98B0baCbd7621E1b23670715dd"
       abi: mUSDC
     mapping:
       kind: ethereum/events
@@ -90,7 +90,7 @@ dataSources:
     name: Metadata
     network: rinkeby
     source:
-      address: "0x95909874AB83777ea3C5ED1Eec382b0c6F3F46a0"
+      address: "0xcEad1c662aFc5E42EB2A4C5B2A9C1A95720bB578"
       abi: Metadata
     mapping:
       kind: ethereum/events

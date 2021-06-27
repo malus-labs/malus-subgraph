@@ -87,7 +87,7 @@
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "collateralRelief",
+				"name": "amount",
 				"type": "uint256"
 			},
 			{

@@ -6,7 +6,7 @@ export function handleTransfer(event: Transfer): void {
     let fromStore = Store.load(event.params.from.toHexString());
 
     if(toStore != null) { 
-        if(event.params.from.toHexString().startsWith('0x42daca14077244e09604544c8e7549c82069b9d6') == false) {
+        if(event.params.from.toHexString().startsWith('0xa28ce059dc1c3c98b0bacbd7621e1b23670715dd') == false) {
             toStore.availableUSDC = toStore.availableUSDC.plus(event.params.value);
             toStore.save();
         }
