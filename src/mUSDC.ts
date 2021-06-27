@@ -134,10 +134,14 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
   let collateralRelief = CollateralRelief.load(id);
 
   if(collateralRelief == null) {
+    let zeroValue = new BigInt(0);
     collateralRelief = new CollateralRelief(id);
+    collateralRelief.rate = event.params.rate;
+    collateralRelief.amount = zeroValue;
   }
 
   let store = Store.load(event.params.store.toHexString());
+  collateralRelief.store = store.id;
   
   if(event.params.didAdd == true) {
     store.availableAUSDC = store.availableAUSDC.minus(event.params.amount);
@@ -149,10 +153,7 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
     store.collateralRelief = store.collateralRelief.minus(event.params.amount);
     collateralRelief.amount = collateralRelief.amount.minus(event.params.amount);
   }
-  
-  
-  collateralRelief.rate = event.params.rate;
-  collateralRelief.store = store.id;
+
   collateralRelief.save();
   store.save();
 }
