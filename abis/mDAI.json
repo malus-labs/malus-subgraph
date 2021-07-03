@@ -3,22 +3,7 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_usdcContract",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_usdtStoreHub",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_daiStoreHub",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_implementation",
+				"name": "_daiContract",
 				"type": "address"
 			}
 		],
@@ -154,31 +139,12 @@
 			},
 			{
 				"indexed": false,
-				"internalType": "address",
-				"name": "extension",
-				"type": "address"
+				"internalType": "uint256",
+				"name": "collateral",
+				"type": "uint256"
 			}
 		],
-		"name": "ExtensionUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "store",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnerUpdated",
+		"name": "CollateralUpdated",
 		"type": "event"
 	},
 	{
@@ -198,31 +164,6 @@
 			}
 		],
 		"name": "StakeUpdated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "store",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "creationDate",
-				"type": "uint256"
-			}
-		],
-		"name": "StoreCreated",
 		"type": "event"
 	},
 	{
@@ -380,10 +321,10 @@
 	},
 	{
 		"inputs": [],
-		"name": "daiStoreHub",
+		"name": "daiContract",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "contract ERC20",
 				"name": "",
 				"type": "address"
 			}
@@ -405,8 +346,14 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "deployStore",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_store",
+				"type": "address"
+			}
+		],
+		"name": "initBalance",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -415,19 +362,13 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "",
+				"name": "_usdcStoreHub",
 				"type": "address"
 			}
 		],
-		"name": "isValidStore",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
+		"name": "initUSDCHub",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -480,19 +421,6 @@
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "storeImplementation",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -579,20 +507,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "usdcContract",
-		"outputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "usdtStoreHub",
+		"name": "usdcStoreHub",
 		"outputs": [
 			{
 				"internalType": "address",

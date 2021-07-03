@@ -27,3 +27,7 @@ export function uint256ToByteArray(i: BigInt): ByteArray {
     let hex = i.toHex().slice(2).padStart(64, '0')
     return byteArrayFromHex(hex)
 }
+
+export function isDuplicateAddress(from: string, to: string): boolean {
+  return from.startsWith(to);
+}

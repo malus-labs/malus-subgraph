@@ -9,8 +9,8 @@ import {
   StoreCreated,
   Transfer,
 } from "../generated/mUSDC/mUSDC"
-
-import { Store, User, CollateralRelief } from "../generated/schema"
+import { Store, User, CollateralRelief } from "../generated/schema";
+import { isDuplicateAddress } from "./utils";
 
 export function handleStoreCreated(event: StoreCreated): void {
   let user = User.load(event.params.owner.toHexString());
@@ -58,13 +58,16 @@ export function handleOwnerUpdated(event: OwnerUpdated): void {
 export function handleAtokenTransfer(event: AtokenTransfer): void {
   let toStore = Store.load(event.params.to.toHexString());
   let fromStore = Store.load(event.params.store.toHexString());
+  let isSameStore = isDuplicateAddress(event.params.store.toHexString(), event.params.to.toHexString());
 
-  fromStore.availableAUSDC = fromStore.availableAUSDC.minus(event.params.amount);
-  fromStore.save();
-
-  if(toStore != null) {
-    toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params.amount);
-    toStore.save();
+  if(!isSameStore) {
+    fromStore.availableAUSDC = fromStore.availableAUSDC.minus(event.params.amount);
+    fromStore.save();
+    
+    if(toStore != null) {
+      toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params.amount);
+      toStore.save();
+    }
   }
 }
 
@@ -73,43 +76,46 @@ export function handleCollateralTransfer(event: CollateralTransfer): void {
   let fromStore = Store.load(event.params.store.toHexString());
   let toStore = Store.load(event.params.to.toHexString());
   let zeroValue = new BigInt(0);
+  let isSameStore = isDuplicateAddress(event.params.store.toHexString(), event.params.to.toHexString());
 
-  if(event.params.didTrade == false) {
-    if(event.params.store.toHexString().startsWith('0x0000000000000000000000000000000000000000') == true) {
-      let stakeLeftOver = toStore.stake as BigInt;
-
-      toStore.availableAUSDC = toStore.availableAUSDC.plus(stakeLeftOver);
-      toStore.collateral = toStore.collateral.plus(event.params.amount);
-      toStore.stake = zeroValue;
-      toStore.save(); 
+  if(!isSameStore) {
+    if(event.params.didTrade == false) {
+      if(event.params.store.toHexString().startsWith('0x0000000000000000000000000000000000000000') == true) {
+        let stakeLeftOver = toStore.stake as BigInt;
+  
+        toStore.availableAUSDC = toStore.availableAUSDC.plus(stakeLeftOver);
+        toStore.collateral = toStore.collateral.plus(event.params.amount);
+        toStore.stake = zeroValue;
+        toStore.save(); 
+      }
+      else {
+        fromStore.collateral = fromStore.collateral.minus(event.params.amount);
+        toStore.collateral = toStore.collateral.plus(event.params.amount);
+        fromStore.save();
+        toStore.save();
+      }
     }
     else {
-      fromStore.collateral = fromStore.collateral.minus(event.params.amount);
-      toStore.collateral = toStore.collateral.plus(event.params.amount);
+      let amount = event.params.amount;
+      let rate = event.params.rate;
+      let lost = amount.times(rate).div(BigInt.fromI32(10000));
+      let difference = amount.minus(lost);
+  
+      fromStore.collateral = fromStore.collateral.minus(amount);
+      fromStore.availableAUSDC = fromStore.availableAUSDC.plus(difference);
+  
+      toStore.collateral = toStore.collateral.plus(amount);
+      toStore.availableAUSDC = toStore.availableAUSDC.plus(lost);
+      toStore.collateralRelief = toStore.collateralRelief.minus(amount);
+  
+      let id = getCollateralReliefID(event.params.to.toHexString(), rate.toHexString()); 
+      let collateralRelief = CollateralRelief.load(id);
+      collateralRelief.amount = zeroValue;
+  
       fromStore.save();
       toStore.save();
+      collateralRelief.save();
     }
-  }
-  else {
-    let amount = event.params.amount;
-    let rate = event.params.rate;
-    let lost = amount.times(rate).div(BigInt.fromI32(10000));
-    let difference = amount.minus(lost);
-
-    fromStore.collateral = fromStore.collateral.minus(amount);
-    fromStore.availableAUSDC = fromStore.availableAUSDC.plus(difference);
-
-    toStore.collateral = toStore.collateral.plus(amount);
-    toStore.availableAUSDC = toStore.availableAUSDC.plus(lost);
-    toStore.collateralRelief = toStore.collateralRelief.minus(amount);
-
-    let id = getCollateralReliefID(event.params.to.toHexString(), rate.toHexString()); 
-    let collateralRelief = CollateralRelief.load(id);
-    collateralRelief.amount = zeroValue;
-
-    fromStore.save();
-    toStore.save();
-    collateralRelief.save();
   }
 }
 
@@ -134,23 +140,28 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
   let collateralRelief = CollateralRelief.load(id);
 
   if(collateralRelief == null) {
+    let zeroValue = new BigInt(0);
     collateralRelief = new CollateralRelief(id);
+    collateralRelief.rate = event.params.rate;
+    collateralRelief.amount = zeroValue;
   }
 
   let store = Store.load(event.params.store.toHexString());
+  collateralRelief.store = store.id;
   
   if(event.params.didAdd == true) {
-    store.collateralRelief = store.collateralRelief.plus(event.params.collateralRelief);
+    store.availableAUSDC = store.availableAUSDC.minus(event.params.amount);
+    store.collateralRelief = store.collateralRelief.plus(event.params.amount);
+    collateralRelief.amount = collateralRelief.amount.plus(event.params.amount);
   }
   else {
-    store.collateralRelief = store.collateralRelief.minus(event.params.collateralRelief);
+    store.availableAUSDC = store.availableAUSDC.plus(event.params.amount);
+    store.collateralRelief = store.collateralRelief.minus(event.params.amount);
+    collateralRelief.amount = collateralRelief.amount.minus(event.params.amount);
   }
-  store.save();
-  
-  collateralRelief.rate = event.params.rate;
-  collateralRelief.amount = event.params.collateralRelief;
-  collateralRelief.store = store.id;
+
   collateralRelief.save();
+  store.save();
 }
 
 
