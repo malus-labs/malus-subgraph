@@ -22,8 +22,6 @@ dataSources:
         - name: mUSDC
           file: ./abis/mUSDC.json
       eventHandlers:
-        - event: Approval(indexed address,indexed address,uint256)
-          handler: handleApproval
         - event: CollateralReliefUpdated(indexed address,uint256,uint256,bool)
           handler: handleCollateralReliefUpdated
         - event: ExtensionUpdated(indexed address,address)
@@ -60,8 +58,6 @@ dataSources:
         - name: aUSDC
           file: ./abis/aUSDC.json
       eventHandlers:
-        - event: Approval(indexed address,indexed address,uint256)
-          handler: handleApproval
         - event: Transfer(indexed address,indexed address,uint256)
           handler: handleTransfer
   - kind: ethereum/contract
