@@ -55,7 +55,7 @@ export function handleOwnerUpdated(event: OwnerUpdated): void {
 }
 
 
-export function handleAtokenTransfer(event: AtokenTransfer): void {
+export function handleAtokenTransfer(event: AtokenTransfer): void {//
   let toStore = Store.load(event.params.to.toHexString());
   let fromStore = Store.load(event.params.store.toHexString());
   let isSameStore = isDuplicateAddress(event.params.store.toHexString(), event.params.to.toHexString());
@@ -72,7 +72,7 @@ export function handleAtokenTransfer(event: AtokenTransfer): void {
 }
 
 
-export function handleCollateralTransfer(event: CollateralTransfer): void {
+export function handleCollateralTransfer(event: CollateralTransfer): void { //
   let fromStore = Store.load(event.params.store.toHexString());
   let toStore = Store.load(event.params.to.toHexString());
   let zeroValue = new BigInt(0);
@@ -120,7 +120,7 @@ export function handleCollateralTransfer(event: CollateralTransfer): void {
 }
 
 
-export function handleStakeUpdated(event: StakeUpdated): void {
+export function handleStakeUpdated(event: StakeUpdated): void { //
   let store = Store.load(event.params.store.toHexString());
   store.availableAUSDC = store.availableAUSDC.minus(event.params.stake);
   store.stake =  store.stake.plus(event.params.stake);
@@ -135,7 +135,7 @@ export function handleExtensionUpdated(event: ExtensionUpdated): void {
 }
 
 
-export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): void {
+export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): void { //
   let id = getCollateralReliefID(event.params.store.toHexString(), event.params.rate.toHexString()); 
   let collateralRelief = CollateralRelief.load(id);
 
