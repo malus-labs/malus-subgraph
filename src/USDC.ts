@@ -9,7 +9,7 @@ export function handleTransfer(event: Transfer): void {
 
     if(!isSameStore) {
         if(toStore != null) { 
-            if(event.params.from.toHexString().startsWith('0xa868f30d5163044a330aa0a15e92b7dc655eb26e') == false) {
+            if(event.params.from.toHexString().startsWith('0x04ec672d595d0dda3122a632b4f66f0ede7191ea') == false) {
                 toStore.availableUSDC = toStore.availableUSDC.plus(event.params.value);
                 toStore.save();
             }
