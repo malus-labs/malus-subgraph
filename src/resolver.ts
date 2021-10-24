@@ -13,6 +13,7 @@ export function handleAddrChanged(event: AddrChangedEvent): void {
     if(domain != null) {
         if(oldStore != null) {
             domain.store = null;
+            domain.isVerified = false;
             oldStore.ensName = null;
             oldStore.name = null;
             oldStore.isVerified = false;

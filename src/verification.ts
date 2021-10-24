@@ -13,14 +13,14 @@ export function handleUpdateVerification(event: UpdateVerification): void {
     }
 
     if(event.params.didVerify == true) {
-        domain.isVerified = true;
         if(store != null) {
+            domain.isVerified = true;
             store.isVerified = true;
         }
     }
     else {
-        domain.isVerified = false;
         if(store != null) {
+            domain.isVerified = false;
             store.isVerified = false;
         }
     }

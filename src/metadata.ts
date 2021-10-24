@@ -5,18 +5,22 @@ export function handleMetaDataUpdated(event: MetaDataUpdated): void {
     let store = Store.load(event.params.store.toHexString());
     let metaData = event.params.metaData;
     let domain = Domain.load(metaData[0]);
+    let previousDomain = Domain.load(store.ensName);
+
+    if(previousDomain != null) {
+      store.isVerified = false;
+      previousDomain.isVerified = false;
+    }
   
     if(domain != null) {
       if(domain.store == store.id) {
         store.ensName = domain.id;
         store.name = domain.name;
-        store.isVerified = domain.isVerified;
       }
     }
     else if(metaData[0] == "") {
       store.ensName = null;
       store.name = null;
-      store.isVerified = false;
     }
 
     store.country = metaData[1];
