@@ -12,9 +12,9 @@ export function handleNewOwner(event: NewOwnerEvent): void {
   
     let subnode = crypto.keccak256(concat(event.params.node, event.params.label)).toHexString()
     let domain = Domain.load(subnode);
+
     if(domain == null) {
       domain = new Domain(subnode);
-      domain.isVerified = false;
     }
   
     if(domain.name == null) {

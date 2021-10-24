@@ -24,7 +24,6 @@ export function handleStoreCreated(event: StoreCreated): void {
   let zeroValue = new BigInt(0);
   store.address = event.params.store.toHexString();
   store.owner = user.id;
-  store.availableAUSDC = zeroValue;
   store.availableUSDC = zeroValue;
   store.isVerified = false;
   store.stake = zeroValue;
@@ -61,11 +60,11 @@ export function handleAtokenTransfer(event: AtokenTransfer): void {//
   let isSameStore = isDuplicateAddress(event.params.store.toHexString(), event.params.to.toHexString());
 
   if(!isSameStore) {
-    fromStore.availableAUSDC = fromStore.availableAUSDC.minus(event.params.amount);
+    //fromStore.availableAUSDC = fromStore.availableAUSDC.minus(event.params.amount);
     fromStore.save();
     
     if(toStore != null) {
-      toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params.amount);
+      //toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params.amount);
       toStore.save();
     }
   }
@@ -81,9 +80,9 @@ export function handleCollateralTransfer(event: CollateralTransfer): void { //
   if(!isSameStore) {
     if(event.params.didTrade == false) {
       if(event.params.store.toHexString().startsWith('0x0000000000000000000000000000000000000000') == true) {
-        let stakeLeftOver = toStore.stake as BigInt;
+        //let stakeLeftOver = toStore.stake as BigInt;
   
-        toStore.availableAUSDC = toStore.availableAUSDC.plus(stakeLeftOver);
+        //toStore.availableAUSDC = toStore.availableAUSDC.plus(stakeLeftOver);
         toStore.collateral = toStore.collateral.plus(event.params.amount);
         toStore.stake = zeroValue;
         toStore.save(); 
@@ -98,14 +97,14 @@ export function handleCollateralTransfer(event: CollateralTransfer): void { //
     else {
       let amount = event.params.amount;
       let rate = event.params.rate;
-      let lost = amount.times(rate).div(BigInt.fromI32(10000));
-      let difference = amount.minus(lost);
+      //let lost = amount.times(rate).div(BigInt.fromI32(10000));
+      //let difference = amount.minus(lost);
   
       fromStore.collateral = fromStore.collateral.minus(amount);
-      fromStore.availableAUSDC = fromStore.availableAUSDC.plus(difference);
+      //fromStore.availableAUSDC = fromStore.availableAUSDC.plus(difference);
   
       toStore.collateral = toStore.collateral.plus(amount);
-      toStore.availableAUSDC = toStore.availableAUSDC.plus(lost);
+      //toStore.availableAUSDC = toStore.availableAUSDC.plus(lost);
       toStore.collateralRelief = toStore.collateralRelief.minus(amount);
   
       let id = getCollateralReliefID(event.params.to.toHexString(), rate.toHexString()); 
@@ -122,7 +121,7 @@ export function handleCollateralTransfer(event: CollateralTransfer): void { //
 
 export function handleStakeUpdated(event: StakeUpdated): void { //
   let store = Store.load(event.params.store.toHexString());
-  store.availableAUSDC = store.availableAUSDC.minus(event.params.stake);
+  //store.availableAUSDC = store.availableAUSDC.minus(event.params.stake);
   store.stake =  store.stake.plus(event.params.stake);
   store.save();
 }
@@ -130,7 +129,7 @@ export function handleStakeUpdated(event: StakeUpdated): void { //
 
 export function handleExtensionUpdated(event: ExtensionUpdated): void {
   let store = Store.load(event.params.store.toHexString());
-  store.extension = event.params.extension;
+  store.extension = event.params.extension.toHexString();
   store.save();
 }
 
@@ -150,12 +149,12 @@ export function handleCollateralReliefUpdated(event: CollateralReliefUpdated): v
   collateralRelief.store = store.id;
   
   if(event.params.didAdd == true) {
-    store.availableAUSDC = store.availableAUSDC.minus(event.params.amount);
+    //store.availableAUSDC = store.availableAUSDC.minus(event.params.amount);
     store.collateralRelief = store.collateralRelief.plus(event.params.amount);
     collateralRelief.amount = collateralRelief.amount.plus(event.params.amount);
   }
   else {
-    store.availableAUSDC = store.availableAUSDC.plus(event.params.amount);
+    //store.availableAUSDC = store.availableAUSDC.plus(event.params.amount);
     store.collateralRelief = store.collateralRelief.minus(event.params.amount);
     collateralRelief.amount = collateralRelief.amount.minus(event.params.amount);
   }
@@ -172,7 +171,7 @@ export function handleTransfer(event: Transfer): void {
 
   if(toStore != null) {
     toStore.collateral = toStore.collateral.minus(event.params._amount);
-    toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params._amount);
+    //toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params._amount);
     toStore.save();
   }
 

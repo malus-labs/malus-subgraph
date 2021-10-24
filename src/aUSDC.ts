@@ -6,7 +6,7 @@ export function handleTransfer(event: Transfer): void {
     let fromStore = Store.load(event.params.from.toHexString());
 
     if(toStore != null && fromStore == null) {
-        toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params.value);
+        //toStore.availableAUSDC = toStore.availableAUSDC.plus(event.params.value);
         toStore.save();
     }
 }
